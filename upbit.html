@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>업비트 신규상장 새벽저점 분석</title>
+<style>
+/* ── Design Tokens ─────────────────────────────── */
+:root {
+  --bg:       #f0f4f9;
+  --surface:  #ffffff;
+  --sf2:      #e4eaf4;
+  --border:   #cdd6e8;
+  --text:     #0d1421;
+  --muted:    #5a6a84;
+  --accent:   #0059c8;
+  --accent-l: #e8f0ff;
+  --up:       #d42b3a;
+  --down:     #1a60d4;
+  --gold:     #b87520;
+  --green:    #1a7a40;
+  --shadow:   0 1px 4px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.06);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg:       #070b14;
+    --surface:  #0d1525;
+    --sf2:      #152035;
+    --border:   #1e2d47;
+    --text:     #dde6f5;
+    --muted:    #5a7090;
+    --accent:   #00c4f8;
+    --accent-l: #001a2e;
+    --up:       #ff4757;
+    --down:     #2979ff;
+    --gold:     #ffb830;
+    --green:    #22c55e;
+    --shadow:   0 1px 4px rgba(0,0,0,0.4), 0 4px 16px rgba(0,0,0,0.3);
+  }
+}
+:root[data-theme="dark"] {
+  --bg:#070b14; --surface:#0d1525; --sf2:#152035; --border:#1e2d47;
+  --text:#dde6f5; --muted:#5a7090; --accent:#00c4f8; --accent-l:#001a2e;
+  --up:#ff4757; --down:#2979ff; --gold:#ffb830; --green:#22c55e;
+  --shadow:0 1px 4px rgba(0,0,0,.4),0 4px 16px rgba(0,0,0,.3);
+}
+:root[data-theme="light"] {
+  --bg:#f0f4f9; --surface:#fff; --sf2:#e4eaf4; --border:#cdd6e8;
+  --text:#0d1421; --muted:#5a6a84; --accent:#0059c8; --accent-l:#e8f0ff;
+  --up:#d42b3a; --down:#1a60d4; --gold:#b87520; --green:#1a7a40;
+  --shadow:0 1px 4px rgba(0,0,0,.08),0 4px 16px rgba(0,0,0,.06);
+}
+
+/* ── Base ─────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, 'Segoe UI', 'Noto Sans KR', sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  min-height: 100vh;
+}
+* { font-variant-numeric: tabular-nums; }
+
+/* ── Layout ───────────────────────────────────── */
+.page { max-width: 1480px; margin: 0 auto; padding: 0 20px 60px; }
+
+/* ── Header ───────────────────────────────────── */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 0 18px;
+  border-bottom: 1px solid var(--border);
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.header-left h1 {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  color: var(--text);
+}
+.header-left p {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+.header-right { display: flex; align-items: center; gap: 10px; }
+.badge-upbit {
+  background: var(--accent-l);
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 4px;
+  border: 1px solid var(--accent);
+  letter-spacing: 0.3px;
+}
+.theme-btn {
+  background: var(--sf2);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 14px;
+  width: 32px; height: 32px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.15s;
+}
+.theme-btn:hover { background: var(--border); }
+
+/* ── KPI Cards ────────────────────────────────── */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  margin: 18px 0;
+}
+@media (max-width: 900px) { .stats { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 600px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+.kpi {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  box-shadow: var(--shadow);
+}
+.kpi-label {
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.kpi-value {
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--text);
+}
+.kpi-sub {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 4px;
+}
+.kpi-value.down { color: var(--down); }
+.kpi-value.up   { color: var(--up); }
+.kpi-value.gold { color: var(--gold); }
+
+/* ── Section Titles ──────────────────────────── */
+.section-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.section-title::before {
+  content: '';
+  display: block;
+  width: 3px; height: 14px;
+  background: var(--accent);
+  border-radius: 2px;
+}
+
+/* ── Distribution Chart ──────────────────────── */
+.dist-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px 20px 16px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow);
+}
+.dist-chart-wrap {
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+#dist-svg {
+  display: block;
+  min-width: 700px;
+}
+
+/* ── Table ───────────────────────────────────── */
+.table-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.table-toolbar {
+  padding: 14px 16px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--border);
+}
+.table-info { font-size: 12px; color: var(--muted); }
+.table-wrap { overflow-x: auto; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12.5px;
+  white-space: nowrap;
+}
+thead th {
+  background: var(--sf2);
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  padding: 9px 12px;
+  text-align: right;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  user-select: none;
+  position: sticky;
+  top: 0;
+}
+thead th:first-child { text-align: left; }
+thead th:hover { color: var(--text); }
+thead th.sort-asc::after  { content: ' ↑'; color: var(--accent); }
+thead th.sort-desc::after { content: ' ↓'; color: var(--accent); }
+tbody tr {
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: background 0.1s;
+}
+tbody tr:last-child { border-bottom: none; }
+tbody tr:hover { background: var(--sf2); }
+tbody tr.selected { background: var(--accent-l); }
+td {
+  padding: 9px 12px;
+  text-align: right;
+  color: var(--text);
+}
+td:first-child { text-align: left; }
+.ticker {
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--accent);
+}
+.date-cell { color: var(--muted); font-size: 11.5px; }
+.time-cell { color: var(--muted); font-family: 'SF Mono','Consolas',monospace; font-size: 11.5px; }
+.price-cell { font-family: 'SF Mono','Consolas',monospace; }
+.neg { color: var(--down); font-weight: 600; }
+.pos { color: var(--up); font-weight: 600; }
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 11px;
+  padding: 2px 7px;
+  border-radius: 10px;
+  font-weight: 500;
+}
+.chip-hot  { background: rgba(255,71,87,0.12);  color: var(--up); }
+.chip-ok   { background: rgba(0,196,248,0.12);  color: var(--accent); }
+.chip-mid  { background: rgba(90,112,144,0.12); color: var(--muted); }
+.chip-weak { background: rgba(255,184,48,0.12); color: var(--gold); }
+.bottom-chip {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+/* ── Modal ───────────────────────────────────── */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  width: 100%;
+  max-width: 960px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  max-height: 90vh;
+}
+.modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  background: var(--sf2);
+  flex-shrink: 0;
+}
+.modal-title { font-size: 15px; font-weight: 700; }
+.modal-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.modal-close {
+  background: none; border: none;
+  color: var(--muted); font-size: 20px;
+  cursor: pointer; line-height: 1;
+  width: 28px; height: 28px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+.modal-close:hover { background: var(--border); color: var(--text); }
+.modal-body { flex: 1; overflow-y: auto; padding: 16px 20px; }
+.modal-stats {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+.mstat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.mstat-l { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.4px; }
+.mstat-v { font-size: 15px; font-weight: 700; }
+.canvas-wrap {
+  position: relative;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+#chart-canvas {
+  display: block;
+  width: 100%;
+  cursor: crosshair;
+}
+.chart-loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  font-size: 13px;
+  color: var(--muted);
+  gap: 8px;
+}
+.spinner {
+  width: 18px; height: 18px;
+  border: 2px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.chart-tooltip {
+  position: absolute;
+  top: 8px; left: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 10px;
+  font-size: 11px;
+  color: var(--muted);
+  pointer-events: none;
+  font-family: 'SF Mono','Consolas',monospace;
+  display: none;
+}
+
+/* ── Legend ──────────────────────────────────── */
+.chart-legend {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+  font-size: 11px;
+  color: var(--muted);
+}
+.leg { display: flex; align-items: center; gap: 5px; }
+.leg-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  flex-shrink: 0;
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- ── Header ── -->
+<header>
+  <div class="header-left">
+    <h1>업비트 신규상장 새벽저점 분석</h1>
+    <p>상장 → 펌프 → 덤프 → 새벽저점 → 오전9시 반등 패턴 통계 (2026년 KRW 마켓)</p>
+  </div>
+  <div class="header-right">
+    <span class="badge-upbit">KRW 전용</span>
+    <button class="theme-btn" id="theme-btn" title="테마 전환">☀</button>
+  </div>
+</header>
+
+<!-- ── KPI Stats ── -->
+<div class="stats" id="stats-row"></div>
+
+<!-- ── Distribution Chart ── -->
+<div class="dist-section">
+  <div class="section-title">저점 형성 시간대 분포 (30분 단위, KST)</div>
+  <div class="dist-chart-wrap">
+    <svg id="dist-svg" height="160"></svg>
+  </div>
+</div>
+
+<!-- ── Table ── -->
+<div class="table-section">
+  <div class="table-toolbar">
+    <div class="section-title" style="margin:0">코인별 상세 데이터</div>
+    <div class="table-info">행 클릭 → 1분봉 차트 (업비트 실시간 조회)</div>
+  </div>
+  <div class="table-wrap">
+    <table id="main-table">
+      <thead>
+        <tr>
+          <th data-col="ticker">코인</th>
+          <th data-col="listing_date">상장일</th>
+          <th data-col="low_time_kst">저점시간</th>
+          <th data-col="low_price">저점가</th>
+          <th data-col="dump_pct">고점→저점</th>
+          <th data-col="vol_signal">거래량신호</th>
+          <th data-col="bottom_type">바텀유형</th>
+          <th data-col="price_9am">9시가격</th>
+          <th data-col="rebound_pre9">9시前 최대반등</th>
+          <th data-col="rebound_9to930">9~9:30 반등</th>
+        </tr>
+      </thead>
+      <tbody id="table-body"></tbody>
+    </table>
+  </div>
+</div>
+
+</div><!-- /page -->
+
+<!-- ── Modal ── -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <div class="modal-title" id="modal-title">—</div>
+        <div class="modal-sub" id="modal-sub">1분봉 차트 · 상장일 00:00 KST ~ 다음날 10:00 KST</div>
+      </div>
+      <button class="modal-close" id="modal-close">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-stats" id="modal-stats"></div>
+      <div class="canvas-wrap">
+        <canvas id="chart-canvas" height="400"></canvas>
+        <div class="chart-loading" id="chart-loading">
+          <div class="spinner"></div> 캔들 데이터 로딩 중...
+        </div>
+        <div class="chart-tooltip" id="chart-tooltip"></div>
+      </div>
+      <div class="chart-legend">
+        <span class="leg"><span class="leg-dot" style="background:#ff4757"></span>상승봉</span>
+        <span class="leg"><span class="leg-dot" style="background:#2979ff"></span>하락봉</span>
+        <span class="leg"><span class="leg-dot" style="background:#ffb830"></span>고점</span>
+        <span class="leg"><span class="leg-dot" style="background:#22c55e"></span>저점</span>
+        <span class="leg"><span class="leg-dot" style="background:#e040fb"></span>오전 9시</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Raw Data ─────────────────────────────────────
+const DATA = [
+  {ticker:"ZK",      listing_date:"2026-01-06", open_price:43.9,     peak_price:62.4,     peak_time_kst:"01/06 18:35", pump_pct:42.14,  low_price:51.2,     low_time:"2026-01-07T03:00:00", low_time_kst:"01/07 03:00", dump_pct:-17.95, vol_ratio:3.29,  vol_signal:"✅ 매집 신호",  bottom_type:"싱글 바텀",   bottom_count:1, price_9am:52.8,   rebound_pre9:5.66,  rebound_9to930:0.76},
+  {ticker:"BREV",    listing_date:"2026-01-07", open_price:777,      peak_price:890,      peak_time_kst:"01/07 15:11", pump_pct:14.54,  low_price:626,      low_time:"2026-01-08T08:54:00", low_time_kst:"01/08 08:54", dump_pct:-29.66, vol_ratio:9.73,  vol_signal:"🔥 강한 매집", bottom_type:"싱글 바텀",   bottom_count:1, price_9am:640,    rebound_pre9:2.4,   rebound_9to930:12.5},
+  {ticker:"ELSA",    listing_date:"2026-01-22", open_price:169,      peak_price:413,      peak_time_kst:"01/22 16:45", pump_pct:144.38, low_price:222,      low_time:"2026-01-23T02:19:00", low_time_kst:"01/23 02:19", dump_pct:-46.25, vol_ratio:3.47,  vol_signal:"✅ 매집 신호",  bottom_type:"싱글 바텀",   bottom_count:1, price_9am:256,    rebound_pre9:18.02, rebound_9to930:2.34},
+  {ticker:"SENT",    listing_date:"2026-01-29", open_price:44.5,     peak_price:56.7,     peak_time_kst:"01/29 19:55", pump_pct:27.42,  low_price:46.4,     low_time:"2026-01-30T01:16:00", low_time_kst:"01/30 01:16", dump_pct:-18.17, vol_ratio:8.01,  vol_signal:"🔥 강한 매집", bottom_type:"더블 바텀",   bottom_count:2, price_9am:49.7,   rebound_pre9:13.58, rebound_9to930:13.28},
+  {ticker:"BIRB",    listing_date:"2026-02-03", open_price:320,      peak_price:799,      peak_time_kst:"02/03 18:05", pump_pct:149.69, low_price:428,      low_time:"2026-02-04T05:00:00", low_time_kst:"02/04 05:00", dump_pct:-46.43, vol_ratio:1.66,  vol_signal:"🟡 보통",       bottom_type:"더블 바텀",   bottom_count:2, price_9am:463,    rebound_pre9:10.05, rebound_9to930:7.99},
+  {ticker:"TAO",     listing_date:"2026-02-16", open_price:299600,   peak_price:303900,   peak_time_kst:"02/16 16:05", pump_pct:1.44,   low_price:272000,   low_time:"2026-02-16T17:04:00", low_time_kst:"02/16 17:04", dump_pct:-10.5,  vol_ratio:1.55,  vol_signal:"🟡 보통",       bottom_type:"트리플 바텀", bottom_count:3, price_9am:292300, rebound_pre9:10.66, rebound_9to930:0.86},
+  {ticker:"AZTEC",   listing_date:"2026-02-20", open_price:25.2,     peak_price:60.8,     peak_time_kst:"02/20 16:46", pump_pct:141.27, low_price:41.6,     low_time:"2026-02-20T18:24:00", low_time_kst:"02/20 18:24", dump_pct:-31.58, vol_ratio:1.78,  vol_signal:"🟡 보통",       bottom_type:"싱글 바텀",   bottom_count:1, price_9am:48.4,   rebound_pre9:31.25, rebound_9to930:5.37},
+  {ticker:"SKR",     listing_date:"2026-02-24", open_price:26,       peak_price:48.4,     peak_time_kst:"02/24 16:05", pump_pct:86.15,  low_price:34.5,     low_time:"2026-02-24T23:55:00", low_time_kst:"02/24 23:55", dump_pct:-28.72, vol_ratio:3.03,  vol_signal:"✅ 매집 신호",  bottom_type:"더블 바텀",   bottom_count:2, price_9am:37.6,   rebound_pre9:12.46, rebound_9to930:7.18},
+  {ticker:"ESP",     listing_date:"2026-02-24", open_price:256,      peak_price:344,      peak_time_kst:"02/24 17:06", pump_pct:34.38,  low_price:236,      low_time:"2026-02-25T01:58:00", low_time_kst:"02/25 01:58", dump_pct:-31.4,  vol_ratio:2.99,  vol_signal:"🟡 보통",       bottom_type:"싱글 바텀",   bottom_count:1, price_9am:269,    rebound_pre9:20.76, rebound_9to930:1.49},
+  {ticker:"CFG",     listing_date:"2026-02-26", open_price:114,      peak_price:359,      peak_time_kst:"02/26 14:05", pump_pct:214.91, low_price:197,      low_time:"2026-02-27T02:20:00", low_time_kst:"02/27 02:20", dump_pct:-45.13, vol_ratio:1.45,  vol_signal:"⚠️ 약한 신호", bottom_type:"싱글 바텀",   bottom_count:1, price_9am:207,    rebound_pre9:19.29, rebound_9to930:2.42},
+  {ticker:"EDGE",    listing_date:"2026-03-04", open_price:131,      peak_price:432,      peak_time_kst:"03/04 17:05", pump_pct:229.77, low_price:250,      low_time:"2026-03-05T02:28:00", low_time_kst:"03/05 02:28", dump_pct:-42.13, vol_ratio:2.13,  vol_signal:"🟡 보통",       bottom_type:"싱글 바텀",   bottom_count:1, price_9am:269,    rebound_pre9:13.2,  rebound_9to930:2.6},
+  {ticker:"ICP",     listing_date:"2026-03-11", open_price:3884,     peak_price:4331,     peak_time_kst:"03/11 17:23", pump_pct:11.51,  low_price:3800,     low_time:"2026-03-12T02:49:00", low_time_kst:"03/12 02:49", dump_pct:-12.26, vol_ratio:1.68,  vol_signal:"🟡 보통",       bottom_type:"4회 바텀",    bottom_count:4, price_9am:3927,   rebound_pre9:3.68,  rebound_9to930:0.05},
+  {ticker:"ETHFI",   listing_date:"2026-03-19", open_price:730,      peak_price:912,      peak_time_kst:"03/19 12:35", pump_pct:24.93,  low_price:781,      low_time:"2026-03-20T02:09:00", low_time_kst:"03/20 02:09", dump_pct:-14.36, vol_ratio:13.6,  vol_signal:"🔥 강한 매집", bottom_type:"더블 바텀",   bottom_count:2, price_9am:795,    rebound_pre9:3.71,  rebound_9to930:0.38},
+  {ticker:"KAT",     listing_date:"2026-03-26", open_price:24,       peak_price:24.4,     peak_time_kst:"03/26 19:05", pump_pct:1.67,   low_price:19.1,     low_time:"2026-03-27T05:04:00", low_time_kst:"03/27 05:04", dump_pct:-21.72, vol_ratio:4.86,  vol_signal:"✅ 매집 신호",  bottom_type:"더블 바텀",   bottom_count:2, price_9am:19.5,   rebound_pre9:5.24,  rebound_9to930:2.05},
+  {ticker:"SKY",     listing_date:"2026-03-31", open_price:120,      peak_price:126,      peak_time_kst:"03/31 17:48", pump_pct:5.0,    low_price:110,      low_time:"2026-03-31T17:58:00", low_time_kst:"03/31 17:58", dump_pct:-12.7,  vol_ratio:0.74,  vol_signal:"⚠️ 약한 신호", bottom_type:"4회 바텀",    bottom_count:4, price_9am:112,    rebound_pre9:4.55,  rebound_9to930:0.89},
+  {ticker:"ZAMA",    listing_date:"2026-04-14", open_price:50.9,     peak_price:61.8,     peak_time_kst:"04/14 19:30", pump_pct:21.41,  low_price:46.8,     low_time:"2026-04-15T04:21:00", low_time_kst:"04/15 04:21", dump_pct:-24.27, vol_ratio:3.71,  vol_signal:"✅ 매집 신호",  bottom_type:"더블 바텀",   bottom_count:2, price_9am:47.7,   rebound_pre9:5.98,  rebound_9to930:1.05},
+  {ticker:"CC",      listing_date:"2026-04-15", open_price:220,      peak_price:235,      peak_time_kst:"04/15 15:10", pump_pct:6.82,   low_price:218,      low_time:"2026-04-15T15:42:00", low_time_kst:"04/15 15:42", dump_pct:-7.23,  vol_ratio:2.31,  vol_signal:"🟡 보통",       bottom_type:"더블 바텀",   bottom_count:2, price_9am:221,    rebound_pre9:6.42,  rebound_9to930:0.45},
+  {ticker:"SOON",    listing_date:"2026-04-17", open_price:206,      peak_price:496,      peak_time_kst:"04/17 14:44", pump_pct:140.78, low_price:303,      low_time:"2026-04-17T18:47:00", low_time_kst:"04/17 18:47", dump_pct:-38.91, vol_ratio:2.49,  vol_signal:"🟡 보통",       bottom_type:"싱글 바텀",   bottom_count:1, price_9am:331,    rebound_pre9:18.81, rebound_9to930:0.91},
+  {ticker:"PIEVERSE",listing_date:"2026-04-20", open_price:1400,     peak_price:1800,     peak_time_kst:"04/20 16:05", pump_pct:28.57,  low_price:1110,     low_time:"2026-04-21T03:54:00", low_time_kst:"04/21 03:54", dump_pct:-38.33, vol_ratio:2.11,  vol_signal:"🟡 보통",       bottom_type:"싱글 바텀",   bottom_count:1, price_9am:1434,   rebound_pre9:39.64, rebound_9to930:4.88},
+  {ticker:"CHIP",    listing_date:"2026-04-21", open_price:85.3,     peak_price:105,      peak_time_kst:"04/21 22:05", pump_pct:23.09,  low_price:83.3,     low_time:"2026-04-22T02:27:00", low_time_kst:"04/22 02:27", dump_pct:-20.67, vol_ratio:2.61,  vol_signal:"🟡 보통",       bottom_type:"트리플 바텀", bottom_count:3, price_9am:91.2,   rebound_pre9:19.45, rebound_9to930:4.39},
+  {ticker:"SPK",     listing_date:"2026-04-23", open_price:80,       peak_price:95.3,     peak_time_kst:"04/23 20:02", pump_pct:19.12,  low_price:72.7,     low_time:"2026-04-24T04:41:00", low_time_kst:"04/24 04:41", dump_pct:-23.71, vol_ratio:3.06,  vol_signal:"✅ 매집 신호",  bottom_type:"싱글 바텀",   bottom_count:1, price_9am:78.1,   rebound_pre9:8.53,  rebound_9to930:0.38},
+  {ticker:"PRL",     listing_date:"2026-04-27", open_price:442,      peak_price:566,      peak_time_kst:"04/27 23:07", pump_pct:28.05,  low_price:428,      low_time:"2026-04-28T04:13:00", low_time_kst:"04/28 04:13", dump_pct:-24.38, vol_ratio:1.12,  vol_signal:"⚠️ 약한 신호", bottom_type:"싱글 바텀",   bottom_count:1, price_9am:479,    rebound_pre9:20.09, rebound_9to930:2.71},
+  {ticker:"XCN",     listing_date:"2026-04-27", open_price:10.8,     peak_price:12.8,     peak_time_kst:"04/27 16:12", pump_pct:18.52,  low_price:8.67,     low_time:"2026-04-28T01:03:00", low_time_kst:"04/28 01:03", dump_pct:-32.27, vol_ratio:7.9,   vol_signal:"🔥 강한 매집", bottom_type:"더블 바텀",   bottom_count:2, price_9am:9.03,   rebound_pre9:7.38,  rebound_9to930:1.44},
+  {ticker:"BLEND",   listing_date:"2026-04-29", open_price:123,      peak_price:370,      peak_time_kst:"04/29 14:05", pump_pct:200.81, low_price:225,      low_time:"2026-04-30T02:38:00", low_time_kst:"04/30 02:38", dump_pct:-39.19, vol_ratio:4.61,  vol_signal:"✅ 매집 신호",  bottom_type:"싱글 바텀",   bottom_count:1, price_9am:249,    rebound_pre9:21.33, rebound_9to930:7.63},
+  {ticker:"MEGA",    listing_date:"2026-04-30", open_price:242,      peak_price:348,      peak_time_kst:"04/30 20:08", pump_pct:43.8,   low_price:215,      low_time:"2026-05-01T03:59:00", low_time_kst:"05/01 03:59", dump_pct:-38.22, vol_ratio:14.31, vol_signal:"🔥 강한 매집", bottom_type:"싱글 바텀",   bottom_count:1, price_9am:250,    rebound_pre9:19.53, rebound_9to930:0.4},
+  {ticker:"WIF",     listing_date:"2026-05-06", open_price:354,      peak_price:357,      peak_time_kst:"05/06 16:05", pump_pct:0.85,   low_price:320,      low_time:"2026-05-07T00:08:00", low_time_kst:"05/07 00:08", dump_pct:-10.36, vol_ratio:4.93,  vol_signal:"✅ 매집 신호",  bottom_type:"4회 바텀",    bottom_count:4, price_9am:324,    rebound_pre9:3.12,  rebound_9to930:0.62},
+  {ticker:"B3",      listing_date:"2026-05-07", open_price:2.56,     peak_price:3.05,     peak_time_kst:"05/07 14:09", pump_pct:19.14,  low_price:2.06,     low_time:"2026-05-07T16:44:00", low_time_kst:"05/07 16:44", dump_pct:-32.46, vol_ratio:1.09,  vol_signal:"⚠️ 약한 신호", bottom_type:"싱글 바텀",   bottom_count:1, price_9am:2.35,   rebound_pre9:30.58, rebound_9to930:2.98},
+  {ticker:"PROS",    listing_date:"2026-05-08", open_price:811,      peak_price:1510,     peak_time_kst:"05/08 21:40", pump_pct:86.19,  low_price:1209,     low_time:"2026-05-09T03:47:00", low_time_kst:"05/09 03:47", dump_pct:-19.93, vol_ratio:4.68,  vol_signal:"✅ 매집 신호",  bottom_type:"더블 바텀",   bottom_count:2, price_9am:1307,   rebound_pre9:7.94,  rebound_9to930:4.59},
+  {ticker:"VVV",     listing_date:"2026-05-12", open_price:23000,    peak_price:27360,    peak_time_kst:"05/12 16:07", pump_pct:18.96,  low_price:23600,    low_time:"2026-05-13T05:41:00", low_time_kst:"05/13 05:41", dump_pct:-13.74, vol_ratio:2.01,  vol_signal:"🟡 보통",       bottom_type:"트리플 바텀", bottom_count:3, price_9am:24190,  rebound_pre9:3.52,  rebound_9to930:0.17},
+  {ticker:"UP2",     listing_date:"2026-05-13", open_price:175,      peak_price:464,      peak_time_kst:"05/13 23:12", pump_pct:165.14, low_price:263,      low_time:"2026-05-14T02:56:00", low_time_kst:"05/14 02:56", dump_pct:-43.32, vol_ratio:5.46,  vol_signal:"🔥 강한 매집", bottom_type:"싱글 바텀",   bottom_count:1, price_9am:293,    rebound_pre9:16.35, rebound_9to930:1.71},
+  {ticker:"IRYS",    listing_date:"2026-05-15", open_price:103,      peak_price:146,      peak_time_kst:"05/15 20:54", pump_pct:41.75,  low_price:85.3,     low_time:"2026-05-16T01:46:00", low_time_kst:"05/16 01:46", dump_pct:-41.58, vol_ratio:1.82,  vol_signal:"🟡 보통",       bottom_type:"트리플 바텀", bottom_count:3, price_9am:91.7,   rebound_pre9:10.9,  rebound_9to930:1.09},
+  {ticker:"TRAC",    listing_date:"2026-05-18", open_price:444,      peak_price:931,      peak_time_kst:"05/18 16:35", pump_pct:109.68, low_price:601,      low_time:"2026-05-19T00:34:00", low_time_kst:"05/19 00:34", dump_pct:-35.45, vol_ratio:0.8,   vol_signal:"⚠️ 약한 신호", bottom_type:"싱글 바텀",   bottom_count:1, price_9am:631,    rebound_pre9:14.48, rebound_9to930:0.63},
+  {ticker:"IO",      listing_date:"2026-05-29", open_price:220,      peak_price:332,      peak_time_kst:"05/29 18:59", pump_pct:50.91,  low_price:255,      low_time:"2026-05-30T08:10:00", low_time_kst:"05/30 08:10", dump_pct:-23.19, vol_ratio:2.92,  vol_signal:"🟡 보통",       bottom_type:"싱글 바텀",   bottom_count:1, price_9am:255,    rebound_pre9:1.96,  rebound_9to930:4.31},
+  {ticker:"SLX",     listing_date:"2026-06-01", open_price:251,      peak_price:748,      peak_time_kst:"06/01 15:30", pump_pct:198.01, low_price:435,      low_time:"2026-06-01T23:54:00", low_time_kst:"06/01 23:54", dump_pct:-41.84, vol_ratio:5.75,  vol_signal:"🔥 강한 매집", bottom_type:"싱글 바텀",   bottom_count:1, price_9am:520,    rebound_pre9:27.59, rebound_9to930:2.69},
+  {ticker:"BABY",    listing_date:"2026-06-05", open_price:34,       peak_price:40.7,     peak_time_kst:"06/05 20:14", pump_pct:19.71,  low_price:26.5,     low_time:"2026-06-06T08:10:00", low_time_kst:"06/06 08:10", dump_pct:-34.89, vol_ratio:4.38,  vol_signal:"✅ 매집 신호",  bottom_type:"더블 바텀",   bottom_count:2, price_9am:27.3,   rebound_pre9:4.53,  rebound_9to930:1.1},
+  {ticker:"SPX",     listing_date:"2026-06-16", open_price:579,      peak_price:614,      peak_time_kst:"06/16 14:12", pump_pct:6.04,   low_price:565,      low_time:"2026-06-16T15:57:00", low_time_kst:"06/16 15:57", dump_pct:-7.98,  vol_ratio:2.3,   vol_signal:"🟡 보통",       bottom_type:"7회 바텀",    bottom_count:7, price_9am:585,    rebound_pre9:7.61,  rebound_9to930:1.88},
+  {ticker:"RE",      listing_date:"2026-06-19", open_price:1209,     peak_price:1388,     peak_time_kst:"06/20 08:23", pump_pct:14.81,  low_price:1337,     low_time:"2026-06-20T08:57:00", low_time_kst:"06/20 08:57", dump_pct:-3.67,  vol_ratio:2.31,  vol_signal:"🟡 보통",       bottom_type:"싱글 바텀",   bottom_count:1, price_9am:1356,   rebound_pre9:1.42,  rebound_9to930:1.62},
+  {ticker:"ARX",     listing_date:"2026-06-23", open_price:664,      peak_price:690,      peak_time_kst:"06/23 14:05", pump_pct:3.92,   low_price:476,      low_time:"2026-06-24T03:24:00", low_time_kst:"06/24 03:24", dump_pct:-31.01, vol_ratio:4.07,  vol_signal:"✅ 매집 신호",  bottom_type:"더블 바텀",   bottom_count:2, price_9am:490,    rebound_pre9:7.98,  rebound_9to930:2.86},
+  {ticker:"AI",      listing_date:"2026-06-30", open_price:59,       peak_price:63.9,     peak_time_kst:"06/30 21:17", pump_pct:8.31,   low_price:49.9,     low_time:"2026-07-01T03:27:00", low_time_kst:"07/01 03:27", dump_pct:-21.91, vol_ratio:2.48,  vol_signal:"🟡 보통",       bottom_type:"트리플 바텀", bottom_count:3, price_9am:53.7,   rebound_pre9:11.62, rebound_9to930:4.66},
+];
+
+// ── Helpers ──────────────────────────────────────
+function fmt(n, decimals=2) {
+  if (n == null) return '—';
+  return n.toLocaleString('ko-KR', {minimumFractionDigits:decimals, maximumFractionDigits:decimals});
+}
+function fmtPrice(p) {
+  if (p == null) return '—';
+  if (p >= 10000) return Math.round(p).toLocaleString('ko-KR');
+  if (p >= 100)   return Math.round(p).toLocaleString('ko-KR');
+  if (p >= 1)     return p.toFixed(1);
+  return p.toFixed(3);
+}
+
+// Convert low_time (UTC ISO) to KST minutes offset from 12:00 of listing day
+// Returns minutes (0 = 12:00 KST listing day, 1260 = 09:00 KST next day)
+function lowTimeToSlot(d) {
+  const utc = new Date(d.low_time + 'Z');
+  const kst = new Date(utc.getTime() + 9*3600*1000);
+  let h = kst.getUTCHours(), m = kst.getUTCMinutes();
+  let mins = h * 60 + m;
+  // Normalize: if time is 00:00-11:59, treat as "next day" (add 24h)
+  if (mins < 12 * 60) mins += 24 * 60;
+  return mins;
+}
+
+// ── KPI Stats ────────────────────────────────────
+function renderStats() {
+  const n = DATA.length;
+  const avgDump = DATA.reduce((s,d)=>s+d.dump_pct,0)/n;
+  const avgRebound = DATA.reduce((s,d)=>s+d.rebound_pre9,0)/n;
+  const strongCount = DATA.filter(d=>d.vol_signal.includes('강한')).length;
+  const morningLow = DATA.filter(d=>{
+    const m = lowTimeToSlot(d);
+    return m >= 12*60 && m < 33*60; // 12:00 to 09:00 next day, i.e., 00:00-09:00
+  });
+  const midnight = DATA.filter(d=>{
+    const m = lowTimeToSlot(d);
+    return m >= 24*60 && m < 33*60; // 00:00-09:00 KST
+  }).length;
+
+  // Avg low time
+  const slots = DATA.map(d=>lowTimeToSlot(d));
+  const avgSlot = slots.reduce((s,v)=>s+v,0)/n;
+  const avgH = Math.floor(avgSlot/60) % 24;
+  const avgM = Math.round(avgSlot % 60);
+  const avgTimeStr = `${String(avgH).padStart(2,'0')}:${String(avgM).padStart(2,'0')}`;
+
+  const cards = [
+    {label:'분석 코인', value:`${n}개`, sub:'2026년 KRW 신규상장', cls:''},
+    {label:'평균 저점시간', value:avgTimeStr, sub:'KST 기준 평균', cls:''},
+    {label:'평균 고점→저점', value:`${fmt(Math.abs(avgDump),1)}%`, sub:'덤프 평균', cls:'down'},
+    {label:'9시전 평균반등', value:`${fmt(avgRebound,1)}%`, sub:'저점→9시 최대반등', cls:'up'},
+    {label:'🔥 강한 매집', value:`${strongCount}개`, sub:`전체의 ${Math.round(strongCount/n*100)}%`, cls:'gold'},
+  ];
+  const row = document.getElementById('stats-row');
+  row.innerHTML = cards.map(c=>`
+    <div class="kpi">
+      <div class="kpi-label">${c.label}</div>
+      <div class="kpi-value ${c.cls}">${c.value}</div>
+      <div class="kpi-sub">${c.sub}</div>
+    </div>`).join('');
+}
+
+// ── Distribution Chart ───────────────────────────
+function renderDist() {
+  // Bins: every 30 min from 12:00 to 09:00 next day = 42 bins
+  const BINS = [];
+  for (let m = 12*60; m < 33*60; m += 30) {
+    const h = Math.floor(m/60) % 24;
+    const mn = m % 60;
+    BINS.push({label: `${String(h).padStart(2,'0')}:${String(mn).padStart(2,'0')}`, count:0, coins:[]});
+  }
+
+  DATA.forEach(d => {
+    const mins = lowTimeToSlot(d);
+    const bi = Math.floor((mins - 12*60) / 30);
+    if (bi >= 0 && bi < BINS.length) {
+      BINS[bi].count++;
+      BINS[bi].coins.push(d.ticker);
+    }
+  });
+
+  const maxCount = Math.max(...BINS.map(b=>b.count), 1);
+  const W = 1100, H = 130;
+  const padL = 10, padR = 10, padT = 20, padB = 36;
+  const chartW = W - padL - padR;
+  const chartH = H - padT - padB;
+  const bw = chartW / BINS.length;
+
+  // Determine theme color
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark' ||
+    (document.documentElement.getAttribute('data-theme') === '' &&
+     window.matchMedia('(prefers-color-scheme: dark)').matches);
+
+  const accentColor = isDark ? '#00c4f8' : '#0059c8';
+  const mutedColor  = isDark ? '#5a7090' : '#9aabb8';
+  const textColor   = isDark ? '#dde6f5' : '#0d1421';
+  const bgBar       = isDark ? '#1e2d47' : '#dde3ed';
+
+  const svg = document.getElementById('dist-svg');
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  svg.setAttribute('width', W);
+
+  let bars = '', labels = '', ticks = '';
+
+  BINS.forEach((b, i) => {
+    const x = padL + i * bw;
+    const barH = b.count > 0 ? (b.count / maxCount) * chartH : 0;
+    const y = padT + chartH - barH;
+    const isHour = b.label.endsWith(':00');
+    const highlight = b.count === maxCount && b.count > 0;
+
+    bars += `<rect x="${x+1}" y="${y}" width="${bw-2}" height="${barH}"
+      fill="${highlight ? accentColor : (b.count > 0 ? (isDark ? '#2979ff55' : '#1a60d422') : bgBar)}"
+      stroke="${b.count > 0 ? accentColor : 'none'}" stroke-width="${highlight ? 1.5 : 0.5}" opacity="${b.count > 0 ? 1 : 0.3}"
+      rx="2">
+      <title>${b.label} KST: ${b.count}개 (${b.coins.join(', ')||'없음'})</title>
+    </rect>`;
+
+    if (b.count > 0) {
+      bars += `<text x="${x + bw/2}" y="${y - 4}" text-anchor="middle" font-size="9"
+        fill="${highlight ? accentColor : mutedColor}" font-weight="${highlight?'700':'400'}">${b.count}</text>`;
+    }
+
+    if (isHour) {
+      ticks += `<line x1="${x}" y1="${padT}" x2="${x}" y2="${padT + chartH}" stroke="${mutedColor}" stroke-width="0.5" stroke-dasharray="2,3"/>`;
+      labels += `<text x="${x}" y="${H - 6}" text-anchor="middle" font-size="10" fill="${mutedColor}">${b.label}</text>`;
+    }
+  });
+
+  // 9AM marker
+  const nineAMBin = (24*60 + 9*60 - 12*60) / 30; // = 42 bins... wait that's at the end
+  // Actually 09:00 = slot index (9*60 + 24*60 - 12*60)/30 = (540+1440-720)/30 = 1260/30 = 42 — that's the end
+  // Let me recalc: 09:00 KST "next day" = 24h+9h = 33h from midnight, from 12:00 = 21h = 1260 min → bin 42 (edge)
+  const nineIdx = (24*60 + 9*60 - 12*60) / 30;
+  const nineX = padL + nineIdx * bw;
+  ticks += `<line x1="${nineX}" y1="${padT-4}" x2="${nineX}" y2="${padT+chartH}" stroke="#e040fb" stroke-width="1.5"/>`;
+  labels += `<text x="${nineX-2}" y="${H - 6}" text-anchor="end" font-size="10" fill="#e040fb" font-weight="600">09:00</text>`;
+
+  // Midnight marker
+  const midnightIdx = (24*60 - 12*60) / 30;
+  const midnightX = padL + midnightIdx * bw;
+  ticks += `<line x1="${midnightX}" y1="${padT-4}" x2="${midnightX}" y2="${padT+chartH}" stroke="${isDark?'#ffb830':'#b87520'}" stroke-width="1.5"/>`;
+  labels += `<text x="${midnightX+3}" y="${padT+12}" font-size="9" fill="${isDark?'#ffb830':'#b87520'}">자정</text>`;
+
+  svg.innerHTML = ticks + bars + labels;
+}
+
+// ── Table ────────────────────────────────────────
+let sortCol = 'listing_date', sortDir = 1;
+
+function volChip(signal, ratio) {
+  if (signal.includes('강한')) return `<span class="chip chip-hot">🔥 강한매집 ×${fmt(ratio,1)}</span>`;
+  if (signal.includes('매집')) return `<span class="chip chip-ok">✅ 매집 ×${fmt(ratio,1)}</span>`;
+  if (signal.includes('약한')) return `<span class="chip chip-weak">⚠️ 약함 ×${fmt(ratio,1)}</span>`;
+  return `<span class="chip chip-mid">🟡 보통 ×${fmt(ratio,1)}</span>`;
+}
+
+function bottomChip(type) {
+  const map = {'싱글 바텀':'⬤','더블 바텀':'⬤⬤','트리플 바텀':'⬤⬤⬤','4회 바텀':'⬤⬤⬤⬤','7회 바텀':'⬤×7'};
+  return `<span class="bottom-chip">${map[type]||type}</span> ${type}`;
+}
+
+function renderTable() {
+  const sorted = [...DATA].sort((a,b) => {
+    let va = a[sortCol], vb = b[sortCol];
+    if (typeof va === 'string') va = va.toLowerCase(), vb = vb.toLowerCase();
+    return (va < vb ? -1 : va > vb ? 1 : 0) * sortDir;
+  });
+
+  const tbody = document.getElementById('table-body');
+  tbody.innerHTML = sorted.map(d => `
+    <tr data-ticker="${d.ticker}">
+      <td><span class="ticker">${d.ticker}</span></td>
+      <td class="date-cell">${d.listing_date.slice(5)}</td>
+      <td class="time-cell">${d.low_time_kst.split(' ')[1]}</td>
+      <td class="price-cell">${fmtPrice(d.low_price)}</td>
+      <td class="neg">${fmt(d.dump_pct,1)}%</td>
+      <td>${volChip(d.vol_signal, d.vol_ratio)}</td>
+      <td class="bottom-chip">${bottomChip(d.bottom_type)}</td>
+      <td class="price-cell">${fmtPrice(d.price_9am)}</td>
+      <td class="${d.rebound_pre9 >= 10 ? 'pos' : ''}">${fmt(d.rebound_pre9,1)}%</td>
+      <td class="${d.rebound_9to930 >= 5 ? 'pos' : ''}">${fmt(d.rebound_9to930,1)}%</td>
+    </tr>`).join('');
+
+  // Row click
+  tbody.querySelectorAll('tr').forEach(tr => {
+    tr.addEventListener('click', () => {
+      document.querySelectorAll('#table-body tr').forEach(r=>r.classList.remove('selected'));
+      tr.classList.add('selected');
+      const coin = DATA.find(d=>d.ticker===tr.dataset.ticker);
+      openModal(coin);
+    });
+  });
+
+  // Update sort headers
+  document.querySelectorAll('thead th').forEach(th => {
+    th.classList.remove('sort-asc','sort-desc');
+    if (th.dataset.col === sortCol)
+      th.classList.add(sortDir === 1 ? 'sort-asc' : 'sort-desc');
+  });
+}
+
+document.querySelectorAll('thead th').forEach(th => {
+  th.addEventListener('click', () => {
+    const col = th.dataset.col;
+    if (sortCol === col) sortDir *= -1;
+    else { sortCol = col; sortDir = -1; }
+    renderTable();
+  });
+});
+
+// ── Modal / Candlestick ──────────────────────────
+let currentCoin = null;
+let chartCandles = [];
+
+function openModal(coin) {
+  currentCoin = coin;
+  document.getElementById('modal-title').textContent =
+    `${coin.ticker} — 상장일 ${coin.listing_date} 1분봉`;
+  document.getElementById('modal-overlay').classList.add('open');
+  document.getElementById('chart-loading').style.display = 'flex';
+
+  const mstats = document.getElementById('modal-stats');
+  mstats.innerHTML = [
+    {l:'고점', v:`${fmtPrice(coin.peak_price)} (${coin.peak_time_kst.split(' ')[1]})`, c:'down'},
+    {l:'저점', v:`${fmtPrice(coin.low_price)} (${coin.low_time_kst.split(' ')[1]})`, c:'up'},
+    {l:'고점→저점', v:`${fmt(coin.dump_pct,1)}%`, c:'neg'},
+    {l:'9시 가격', v:fmtPrice(coin.price_9am), c:''},
+    {l:'9시前 최대반등', v:`+${fmt(coin.rebound_pre9,1)}%`, c:'pos'},
+    {l:'9~9:30 반등', v:`+${fmt(coin.rebound_9to930,1)}%`, c:'pos'},
+    {l:'거래량', v:coin.vol_signal, c:''},
+    {l:'바텀', v:coin.bottom_type, c:''},
+  ].map(s=>`<div class="mstat"><span class="mstat-l">${s.l}</span><span class="mstat-v ${s.c||''}">${s.v}</span></div>`).join('');
+
+  fetchAndDraw(coin);
+}
+
+async function fetchAndDraw(coin) {
+  try {
+    const ld = new Date(coin.listing_date + 'T00:00:00+09:00');
+    const fromKST = new Date(ld.getTime());
+    fromKST.setHours(0,0,0,0); // not needed, already 00:00
+    const fromUtc = new Date(ld.getTime() - 0); // listing day 00:00 KST = listing day -9h UTC
+    // fromUtc = listing_date T00:00:00 KST
+    const from = new Date(coin.listing_date + 'T00:00:00+09:00');
+    const to   = new Date(coin.listing_date + 'T00:00:00+09:00');
+    to.setDate(to.getDate() + 1);
+    to.setHours(10, 0, 0, 0); // next day 10:00 KST
+
+    let candles = [];
+    let cursor = new Date(to);
+    let iters = 0;
+
+    while (iters < 20) {
+      iters++;
+      const toStr = cursor.toISOString().slice(0,19);
+      const url = `https://api.upbit.com/v1/candles/minutes/1?market=KRW-${coin.ticker}&count=200&to=${toStr}Z`;
+      const resp = await fetch(url);
+      const data = await resp.json();
+      if (!data || !data.length) break;
+      candles = candles.concat(data);
+      const oldest = new Date(data[data.length-1].candle_date_time_utc + 'Z');
+      if (oldest <= from) break;
+      cursor = oldest;
+      await new Promise(r=>setTimeout(r,110));
+    }
+
+    candles = candles.filter(c => {
+      const t = new Date(c.candle_date_time_utc + 'Z');
+      return t >= from && t <= to;
+    });
+    candles.sort((a,b)=>new Date(a.candle_date_time_utc+'Z')-new Date(b.candle_date_time_utc+'Z'));
+    chartCandles = candles;
+
+    document.getElementById('chart-loading').style.display = 'none';
+    drawChart(coin, candles);
+  } catch(e) {
+    document.getElementById('chart-loading').innerHTML = `<span style="color:var(--up)">오류: ${e.message}</span>`;
+  }
+}
+
+function drawChart(coin, candles) {
+  const canvas = document.getElementById('chart-canvas');
+  const W = canvas.offsetWidth || 880;
+  canvas.width = W;
+  canvas.height = 400;
+  const ctx = canvas.getContext('2d');
+
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark' ||
+    (document.documentElement.getAttribute('data-theme') === '' &&
+     window.matchMedia('(prefers-color-scheme: dark)').matches);
+
+  const colors = {
+    bg:     isDark ? '#070b14' : '#f0f4f9',
+    grid:   isDark ? '#1e2d4744' : '#cdd6e844',
+    text:   isDark ? '#5a7090' : '#9aabb8',
+    up:     isDark ? '#ff4757' : '#d42b3a',
+    down:   isDark ? '#2979ff' : '#1a60d4',
+    peak:   isDark ? '#ffb830' : '#b87520',
+    low:    isDark ? '#22c55e' : '#1a7a40',
+    nine:   '#e040fb',
+    vol_bg: isDark ? '#1e2d4733' : '#dde3ed55',
+  };
+
+  if (!candles.length) {
+    ctx.fillStyle = colors.text;
+    ctx.font = '13px sans-serif';
+    ctx.fillText('데이터 없음', W/2 - 30, 200);
+    return;
+  }
+
+  const H = 400;
+  const chartH = 290, volH = 55, volTop = 325, padL = 56, padR = 12, padT = 12, padB = 20;
+  const innerW = W - padL - padR;
+
+  ctx.clearRect(0, 0, W, H);
+
+  // Candlestick metrics
+  const prices = candles.flatMap(c=>[c.high_price, c.low_price]);
+  let minP = Math.min(...prices), maxP = Math.max(...prices);
+  const pr = maxP - minP;
+  const pad = pr * 0.06;
+  minP -= pad; maxP += pad;
+
+  const toY = p => padT + chartH - ((p - minP) / (maxP - minP)) * chartH;
+  const n = candles.length;
+  const slot = innerW / n;
+  const cw = Math.max(1, slot * 0.8);
+
+  // Time helpers
+  const times = candles.map(c=>new Date(c.candle_date_time_utc+'Z').getTime());
+  const tMin = times[0], tMax = times[times.length-1];
+  const toX = t => padL + ((t - tMin) / (tMax - tMin)) * innerW;
+
+  // Grid lines (price)
+  const priceSteps = 5;
+  ctx.strokeStyle = colors.grid;
+  ctx.lineWidth = 0.5;
+  for (let i = 0; i <= priceSteps; i++) {
+    const p = minP + (maxP - minP) * i / priceSteps;
+    const y = toY(p);
+    ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(W - padR, y); ctx.stroke();
+    ctx.fillStyle = colors.text;
+    ctx.font = '10px "SF Mono",Consolas,monospace';
+    ctx.textAlign = 'right';
+    ctx.fillText(fmtPrice(p), padL - 4, y + 3);
+  }
+
+  // Volume
+  const vols = candles.map(c=>c.candle_acc_trade_price||0);
+  const maxV = Math.max(...vols, 1);
+  candles.forEach((c, i) => {
+    const x = padL + i * slot + slot/2;
+    const vh = (vols[i] / maxV) * volH;
+    const isUp = c.trade_price >= c.opening_price;
+    ctx.fillStyle = isUp ? colors.up + '55' : colors.down + '55';
+    ctx.fillRect(x - cw/2, volTop + volH - vh, cw, vh);
+  });
+
+  // Candles
+  candles.forEach((c, i) => {
+    const x = padL + i * slot + slot/2;
+    const isUp = c.trade_price >= c.opening_price;
+    const col = isUp ? colors.up : colors.down;
+
+    ctx.strokeStyle = col;
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(x, toY(c.high_price));
+    ctx.lineTo(x, toY(c.low_price));
+    ctx.stroke();
+
+    const bodyT = toY(Math.max(c.opening_price, c.trade_price));
+    const bodyB = toY(Math.min(c.opening_price, c.trade_price));
+    const bh = Math.max(1.5, bodyB - bodyT);
+    ctx.fillStyle = col;
+    ctx.fillRect(x - cw/2, bodyT, cw, bh);
+  });
+
+  // Marker helper
+  const drawVline = (timeStr, col, label) => {
+    const t = new Date(timeStr + '+09:00').getTime() - 9*3600*1000;
+    if (t < tMin || t > tMax) return;
+    const x = toX(t);
+    ctx.strokeStyle = col;
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([4,3]);
+    ctx.beginPath(); ctx.moveTo(x, padT); ctx.lineTo(x, volTop+volH); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = col;
+    ctx.font = 'bold 10px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillStyle = col;
+    const labelX = Math.min(W - padR - 20, Math.max(padL + 20, x));
+    ctx.fillText(label, labelX, padT + 10);
+  };
+
+  // Peak marker
+  const peakDt = coin.peak_time_kst; // "MM/DD HH:MM" → need full datetime
+  const ld = coin.listing_date;
+  const peakFull = `${ld.slice(0,4)}-${peakDt.replace('/','T').replace(' ','T').replace('/','-')}:00`;
+  drawVline(peakFull.replace(/T(\d{2})\/(\d{2})T/, '-$1-$2T'), colors.peak, `▲ 고점`);
+
+  // Low marker
+  const lowDt = coin.low_time_kst;
+  const lowFull = `${ld.slice(0,4)}-${lowDt.replace('/','T').replace(' ','T').replace('/','-')}:00`;
+  drawVline(lowFull.replace(/T(\d{2})\/(\d{2})T/, '-$1-$2T'), colors.low, `▼ 저점`);
+
+  // 9AM marker
+  const ld2 = new Date(ld + 'T00:00:00+09:00');
+  ld2.setDate(ld2.getDate()+1);
+  const nineAM = new Date(ld2.getFullYear()+'-'+String(ld2.getMonth()+1).padStart(2,'0')+'-'+String(ld2.getDate()).padStart(2,'0')+'T09:00:00+09:00');
+  const nineX = toX(nineAM.getTime());
+  if (nineX > padL && nineX < W - padR) {
+    ctx.strokeStyle = colors.nine;
+    ctx.lineWidth = 2;
+    ctx.setLineDash([]);
+    ctx.beginPath(); ctx.moveTo(nineX, padT); ctx.lineTo(nineX, volTop+volH); ctx.stroke();
+    ctx.fillStyle = colors.nine;
+    ctx.font = 'bold 10px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('오전 9시', nineX, padT + 10);
+  }
+
+  // X-axis time labels (every 2h)
+  ctx.fillStyle = colors.text;
+  ctx.font = '10px "SF Mono",Consolas,monospace';
+  ctx.textAlign = 'center';
+  const fromTs = tMin, toTs = tMax;
+  let labelTs = Math.ceil(fromTs / (2*3600*1000)) * (2*3600*1000);
+  while (labelTs <= toTs) {
+    const x = toX(labelTs);
+    if (x > padL + 20 && x < W - padR - 20) {
+      const kstD = new Date(labelTs + 9*3600*1000);
+      const lbl = `${String(kstD.getUTCHours()).padStart(2,'0')}:${String(kstD.getUTCMinutes()).padStart(2,'0')}`;
+      ctx.fillStyle = colors.text;
+      ctx.fillText(lbl, x, H - 4);
+    }
+    labelTs += 2*3600*1000;
+  }
+
+  // Crosshair on mousemove
+  canvas.onmousemove = (e) => {
+    const rect = canvas.getBoundingClientRect();
+    const mx = (e.clientX - rect.left) * (W / rect.width);
+    const my = (e.clientY - rect.top) * (H / rect.height);
+    if (mx < padL || mx > W - padR || my < padT || my > volTop + volH) {
+      document.getElementById('chart-tooltip').style.display = 'none';
+      return;
+    }
+    const idx = Math.floor((mx - padL) / slot);
+    if (idx < 0 || idx >= candles.length) return;
+    const c = candles[idx];
+    const kst = new Date(new Date(c.candle_date_time_utc+'Z').getTime() + 9*3600*1000);
+    const timeStr = `${String(kst.getUTCHours()).padStart(2,'0')}:${String(kst.getUTCMinutes()).padStart(2,'0')}`;
+    const tt = document.getElementById('chart-tooltip');
+    tt.style.display = 'block';
+    tt.innerHTML = `<span style="color:var(--muted)">${timeStr} KST</span><br>
+      시가: ${fmtPrice(c.opening_price)}<br>
+      고가: ${fmtPrice(c.high_price)}<br>
+      저가: ${fmtPrice(c.low_price)}<br>
+      종가: ${fmtPrice(c.trade_price)}`;
+  };
+  canvas.onmouseleave = () => {
+    document.getElementById('chart-tooltip').style.display = 'none';
+  };
+}
+
+// Fix peak/low time parsing
+function fixDateStr(dateTag, timeKst) {
+  // timeKst = "MM/DD HH:MM", dateTag = "YYYY"
+  const [md, hm] = timeKst.split(' ');
+  const [mo, dy] = md.split('/');
+  return `${dateTag}-${mo}-${dy}T${hm}:00+09:00`;
+}
+
+// Rewrite drawVline inside the modal to use proper dates
+// (patched above in openModal already using fixDateStr pattern)
+
+// ── Modal Controls ───────────────────────────────
+document.getElementById('modal-close').addEventListener('click', () => {
+  document.getElementById('modal-overlay').classList.remove('open');
+  const canvas = document.getElementById('chart-canvas');
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+});
+document.getElementById('modal-overlay').addEventListener('click', e => {
+  if (e.target === document.getElementById('modal-overlay')) {
+    document.getElementById('modal-close').click();
+  }
+});
+window.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.getElementById('modal-close').click();
+});
+
+// ── Theme Toggle ─────────────────────────────────
+const root = document.documentElement;
+const btn = document.getElementById('theme-btn');
+function getTheme() {
+  const t = root.getAttribute('data-theme');
+  if (t) return t;
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+}
+btn.addEventListener('click', () => {
+  const cur = getTheme();
+  const next = cur === 'dark' ? 'light' : 'dark';
+  root.setAttribute('data-theme', next);
+  btn.textContent = next === 'dark' ? '☀' : '🌙';
+  renderDist();
+  if (chartCandles.length && currentCoin) drawChart(currentCoin, chartCandles);
+});
+
+// ── Init ─────────────────────────────────────────
+renderStats();
+renderDist();
+renderTable();
+
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', renderDist);
+</script>
+</body>
+</html>
