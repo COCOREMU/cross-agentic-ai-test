@@ -1,0 +1,1494 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>업비트 신규상장 새벽저점 분석</title>
+<style>
+:root {
+  --bg:#f0f4f9;--surface:#fff;--sf2:#e4eaf4;--border:#cdd6e8;
+  --text:#0d1421;--muted:#5a6a84;--accent:#0059c8;--accent-l:#e8f0ff;
+  --up:#d42b3a;--down:#1a60d4;--gold:#b87520;
+  --shadow:0 1px 4px rgba(0,0,0,.08),0 4px 16px rgba(0,0,0,.06);
+}
+@media(prefers-color-scheme:dark){:root{
+  --bg:#070b14;--surface:#0d1525;--sf2:#152035;--border:#1e2d47;
+  --text:#dde6f5;--muted:#5a7090;--accent:#00c4f8;--accent-l:#001a2e;
+  --up:#ff4757;--down:#2979ff;--gold:#ffb830;
+  --shadow:0 1px 4px rgba(0,0,0,.4),0 4px 16px rgba(0,0,0,.3);
+}}
+:root[data-theme="dark"]{--bg:#070b14;--surface:#0d1525;--sf2:#152035;--border:#1e2d47;--text:#dde6f5;--muted:#5a7090;--accent:#00c4f8;--accent-l:#001a2e;--up:#ff4757;--down:#2979ff;--gold:#ffb830;--shadow:0 1px 4px rgba(0,0,0,.4),0 4px 16px rgba(0,0,0,.3);}
+:root[data-theme="light"]{--bg:#f0f4f9;--surface:#fff;--sf2:#e4eaf4;--border:#cdd6e8;--text:#0d1421;--muted:#5a6a84;--accent:#0059c8;--accent-l:#e8f0ff;--up:#d42b3a;--down:#1a60d4;--gold:#b87520;--shadow:0 1px 4px rgba(0,0,0,.08),0 4px 16px rgba(0,0,0,.06);}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,'Segoe UI','Noto Sans KR',sans-serif;font-size:14px;line-height:1.5;}
+*{font-variant-numeric:tabular-nums;}
+.page{max-width:1480px;margin:0 auto;padding:0 20px 60px;}
+
+header{display:flex;align-items:center;justify-content:space-between;padding:22px 0 18px;border-bottom:1px solid var(--border);gap:16px;flex-wrap:wrap;}
+.header-left h1{font-size:20px;font-weight:700;letter-spacing:-.3px;}
+.header-left p{font-size:12px;color:var(--muted);margin-top:2px;}
+.header-right{display:flex;align-items:center;gap:10px;}
+.badge{background:var(--accent-l);color:var(--accent);font-size:11px;font-weight:600;padding:3px 8px;border-radius:4px;border:1px solid var(--accent);}
+.theme-btn{background:var(--sf2);border:1px solid var(--border);color:var(--muted);font-size:14px;width:32px;height:32px;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.tab-bar{display:flex;gap:6px;padding:0 0 18px 0;border-bottom:2px solid var(--border);margin-bottom:20px;}
+.tab-btn{padding:9px 22px;border-radius:8px;border:1px solid var(--border);background:var(--sf2);color:var(--muted);font-size:13px;font-weight:600;cursor:pointer;transition:all .15s;}
+.tab-btn:hover{color:var(--text);}
+.tab-btn.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+.theme-btn:hover{background:var(--border);}
+
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:18px 0;}
+@media(max-width:900px){.stats{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:600px){.stats{grid-template-columns:repeat(2,1fr);}}
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px 16px;box-shadow:var(--shadow);}
+.kpi-label{font-size:11px;color:var(--muted);font-weight:500;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;}
+.kpi-value{font-size:22px;font-weight:700;line-height:1;}
+.kpi-sub{font-size:11px;color:var(--muted);margin-top:4px;}
+.kpi-value.c-down{color:var(--down);}
+.kpi-value.c-up{color:var(--up);}
+.kpi-value.c-gold{color:var(--gold);}
+
+.section-title{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.section-title::before{content:'';display:block;width:3px;height:14px;background:var(--accent);border-radius:2px;}
+
+.dist-section{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:20px 20px 16px;margin-bottom:16px;box-shadow:var(--shadow);}
+.dist-chart-wrap{overflow-x:auto;padding-bottom:4px;}
+#dist-svg{display:block;min-width:700px;}
+
+.table-section{background:var(--surface);border:1px solid var(--border);border-radius:10px;box-shadow:var(--shadow);overflow:hidden;}
+.table-toolbar{padding:14px 16px 10px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--border);}
+.table-info{font-size:12px;color:var(--muted);}
+.table-wrap{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;font-size:12.5px;white-space:nowrap;}
+thead th{background:var(--sf2);color:var(--muted);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;padding:9px 12px;text-align:right;border-bottom:1px solid var(--border);cursor:pointer;user-select:none;}
+thead th:first-child{text-align:left;}
+thead th:hover{color:var(--text);}
+thead th.sort-asc::after{content:' ↑';color:var(--accent);}
+thead th.sort-desc::after{content:' ↓';color:var(--accent);}
+tbody tr{border-bottom:1px solid var(--border);cursor:pointer;transition:background .1s;}
+tbody tr:last-child{border-bottom:none;}
+tbody tr:hover{background:var(--sf2);}
+tbody tr.selected{background:var(--accent-l);}
+td{padding:9px 12px;text-align:right;}
+td:first-child{text-align:left;}
+.ticker{font-weight:700;font-size:13px;color:var(--accent);}
+.date-cell{color:var(--muted);font-size:11.5px;}
+.time-cell{color:var(--muted);font-family:'SF Mono',Consolas,monospace;font-size:11.5px;}
+.price-cell{font-family:'SF Mono',Consolas,monospace;}
+.neg{color:var(--down);font-weight:600;}
+.pos{color:var(--up);font-weight:600;}
+.chip{display:inline-flex;align-items:center;gap:3px;font-size:11px;padding:2px 7px;border-radius:10px;font-weight:500;}
+.chip-hot{background:rgba(255,71,87,.12);color:var(--up);}
+.chip-ok{background:rgba(0,196,248,.12);color:var(--accent);}
+.chip-mid{background:rgba(90,112,144,.12);color:var(--muted);}
+.chip-weak{background:rgba(255,184,48,.12);color:var(--gold);}
+
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:100;align-items:center;justify-content:center;padding:16px;}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:12px;width:100%;max-width:960px;box-shadow:0 20px 60px rgba(0,0,0,.4);overflow:hidden;display:flex;flex-direction:column;max-height:90vh;}
+.modal-head{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border);background:var(--sf2);flex-shrink:0;}
+.modal-title{font-size:15px;font-weight:700;}
+.modal-sub{font-size:11px;color:var(--muted);margin-top:2px;}
+.modal-close{background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:4px;}
+.modal-close:hover{background:var(--border);color:var(--text);}
+.modal-body{flex:1;overflow-y:auto;padding:16px 20px;}
+.modal-stats{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:14px;}
+.mstat{display:flex;flex-direction:column;gap:2px;}
+.mstat-l{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;}
+.mstat-v{font-size:15px;font-weight:700;}
+.canvas-wrap{position:relative;background:var(--bg);border:1px solid var(--border);border-radius:8px;overflow:hidden;}
+#chart-canvas{display:block;width:100%;cursor:crosshair;}
+.chart-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:var(--bg);font-size:13px;color:var(--muted);gap:8px;}
+.spinner{width:18px;height:18px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.chart-tooltip{position:absolute;top:8px;left:8px;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px 10px;font-size:11px;color:var(--muted);pointer-events:none;font-family:'SF Mono',Consolas,monospace;display:none;}
+.chart-legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px;font-size:11px;color:var(--muted);}
+.leg{display:flex;align-items:center;gap:5px;}
+.leg-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+
+/* 투자유의 섹션 */
+.caution-section{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:20px 20px 16px;margin-bottom:16px;box-shadow:var(--shadow);}
+.ctbl{width:100%;border-collapse:collapse;font-size:13px;}
+.ctbl thead th{padding:9px 12px;border-bottom:2px solid var(--border);text-align:left;font-size:11px;color:var(--muted);white-space:nowrap;font-weight:600;cursor:pointer;user-select:none;}
+.ctbl thead th:hover{color:var(--text);}
+.ctbl thead th.sort-active{color:var(--accent);}
+.ctbl thead th.r{text-align:right;}
+.ctbl tbody td{padding:8px 12px;border-bottom:1px solid var(--border);vertical-align:middle;}
+.ctbl tbody td.r{text-align:right;font-weight:600;}
+.ctbl tbody tr:last-child td{border-bottom:none;}
+.ctbl tbody tr:hover{background:var(--sf2);}
+.ctbl .day-low-col{font-weight:700;font-size:14px;}
+.caution-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px;}
+@media(max-width:700px){.caution-kpis{grid-template-columns:repeat(2,1fr);}}
+/* 차트 모달 */
+.chart-modal-overlay{display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.75);align-items:center;justify-content:center;}
+.chart-modal-overlay.open{display:flex;}
+.chart-modal-box{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;width:920px;max-width:96vw;box-shadow:0 8px 40px rgba(0,0,0,.5);}
+.chart-modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;}
+.chart-modal-title{font-size:16px;font-weight:700;}
+.chart-modal-close{background:var(--sf2);border:1px solid var(--border);color:var(--text);font-size:18px;width:34px;height:34px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;}
+.chart-modal-close:hover{background:var(--border);}
+#chart-container{height:460px;border-radius:8px;overflow:hidden;}
+.chart-legend{display:flex;gap:18px;font-size:11px;color:var(--muted);margin-top:8px;flex-wrap:wrap;}
+.chart-legend span{display:flex;align-items:center;gap:4px;}
+.chart-row-btn{cursor:pointer;color:var(--accent);text-decoration:underline;font-weight:700;}
+.chart-row-btn:hover{opacity:.75;}
+</style>
+</head>
+<body>
+<!-- 차트 모달 -->
+<div class="chart-modal-overlay" id="chartModal" onclick="if(event.target===this)closeChart()">
+  <div class="chart-modal-box">
+    <div class="chart-modal-header">
+      <div class="chart-modal-title" id="chartModalTitle">차트 로딩 중…</div>
+      <button class="chart-modal-close" onclick="closeChart()">✕</button>
+    </div>
+    <!-- 탭 바 -->
+    <div style="display:flex;gap:6px;margin-bottom:12px;border-bottom:2px solid var(--border);padding-bottom:10px">
+      <button id="ctab-full" onclick="switchChartTab('full')"
+        style="padding:7px 18px;border-radius:7px;border:1px solid var(--accent);background:var(--accent);color:#fff;font-size:12px;font-weight:700;cursor:pointer">
+        📈 전체 흐름 (15분봉)
+      </button>
+      <button id="ctab-preopen" onclick="switchChartTab('preopen')"
+        style="padding:7px 18px;border-radius:7px;border:1px solid var(--border);background:var(--sf2);color:var(--muted);font-size:12px;font-weight:700;cursor:pointer">
+        🕗 D2 장전 08:30~09:30 (1분봉)
+      </button>
+    </div>
+    <div id="chart-container"></div>
+    <div class="chart-legend" id="chart-legend-full">
+      <span><b style="color:#26a69a">■</b> 양봉</span>
+      <span><b style="color:#ef5350">■</b> 음봉</span>
+      <span style="margin-left:8px">15분봉 · KST · D1 상장시각 ~ D2 D1고점 돌파 직후</span>
+      <span id="chartD1Line" style="display:none"><b style="color:#ffb830">—</b> D1고점 · <b style="color:#2979ff">—</b> D1저점 · <b style="color:#888">- -</b> D1종가</span>
+    </div>
+    <div class="chart-legend" id="chart-legend-preopen" style="display:none">
+      <span><b style="color:#26a69a">■</b> 양봉</span>
+      <span><b style="color:#ef5350">■</b> 음봉</span>
+      <span style="margin-left:8px">1분봉 · KST · D2 08:30~09:30</span>
+      <span><b style="color:#ffb830">—</b> D1고점</span>
+      <span><b style="color:#888">- -</b> D1종가(0%)</span>
+      <span><b style="color:rgba(38,166,154,0.8)">- -</b> +5%·+10%·+15% 기준선</span>
+      <span><b style="color:rgba(239,83,80,0.8)">- -</b> -5%·-10%·-15% 기준선</span>
+    </div>
+    <div id="chartStatus" style="font-size:12px;color:var(--muted);margin-top:6px;text-align:center"></div>
+  </div>
+</div>
+<div class="page">
+<header>
+  <div class="header-left">
+    <h1 id="page-title">업비트 신규상장 새벽저점 분석</h1>
+    <p id="page-sub">상장 → 펌프 → 덤프 → 새벽저점 → 오전9시 반등 패턴 통계 (2026년 KRW 마켓)</p>
+  </div>
+  <div class="header-right">
+    <span class="badge">KRW 전용</span>
+    <button class="theme-btn" id="theme-btn">☀</button>
+  </div>
+</header>
+
+<div class="tab-bar">
+  <button class="tab-btn active" id="tab-listing" onclick="switchTab('listing')">📈 신규상장 반등분석</button>
+  <button class="tab-btn" id="tab-caution" onclick="switchTab('caution')">⚠️ 유의코인 낙폭분석</button>
+  <button class="tab-btn" id="tab-delist" onclick="switchTab('delist')">💀 상폐코인 분석</button>
+  <button class="tab-btn" id="tab-d2break" onclick="switchTab('d2break')">🚀 상장1~2일차 돌파</button>
+  <button class="tab-btn" id="tab-hourly" onclick="switchTab('hourly')">🕒 시간대별 통계</button>
+</div>
+
+<div id="pane-listing">
+<div class="stats" id="stats-row"></div>
+<div class="dist-section">
+  <div class="section-title">저점 형성 시간대 분포 (30분 단위, KST)</div>
+  <div class="dist-chart-wrap"><svg id="dist-svg" height="160"></svg></div>
+</div>
+<div class="table-section">
+  <div class="table-toolbar">
+    <div class="section-title" style="margin:0">코인별 상세 데이터</div>
+    <div class="table-info">행 클릭 → 1분봉 차트 (업비트 실시간 조회)</div>
+  </div>
+  <div class="table-wrap">
+    <table id="main-table">
+      <thead><tr>
+        <th data-col="ticker">코인</th>
+        <th data-col="listing_date">상장일</th>
+        <th data-col="listing_open">상장시가</th>
+        <th data-col="peak_price">상장최고점</th>
+        <th data-col="dump_pct">고점→저점</th>
+        <th data-col="low_time_kst">저점시간</th>
+        <th data-col="low_price">저점가</th>
+        <th data-col="bottom_type">바텀유형</th>
+        <th data-col="rebound_pre9">9시前 최대반등</th>
+        <th data-col="price_9am">9시가격</th>
+        <th data-col="rebound_9to930">9~9:30 반등</th>
+      </tr></thead>
+      <tbody id="table-body"></tbody>
+    </table>
+  </div>
+</div>
+</div><!-- /pane-listing -->
+
+<div id="pane-caution" style="display:none">
+<div class="caution-section" id="caution-section"><!-- renderCautionTable()이 채움 --></div>
+</div><!-- /pane-caution -->
+
+<div id="pane-delist" style="display:none">
+<div class="caution-section" id="delist-section"><!-- renderDelistTable()이 채움 --></div>
+</div><!-- /pane-delist -->
+
+<div id="pane-d2break" style="display:none">
+<div class="caution-section" id="d2break-section"><!-- renderD2BreakTable()이 채움 --></div>
+</div><!-- /pane-d2break -->
+
+<div id="pane-hourly" style="display:none">
+<!-- 같은 폴더의 시간대별_통계_대시보드.html (매일 09:10 자동 갱신)을 그대로 보여줌. 높이는 안쪽 페이지가 알려줌 -->
+<iframe id="hourly-frame" title="업비트 시간대별 통계" data-src="시간대별_통계_대시보드.html"
+  style="width:100%;min-height:900px;border:0;display:block;background:transparent"></iframe>
+<p style="font-size:12px;color:var(--muted);margin-top:8px">매일 오전 9시 10분에 어제 하루치가 더해져요. 안 보이면 같은 폴더에 <b>시간대별_통계_대시보드.html</b>이 있는지 확인하세요.</p>
+</div><!-- /pane-hourly -->
+
+</div><!-- /page -->
+
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <div class="modal-title" id="modal-title">—</div>
+        <div class="modal-sub">1분봉 차트 · 상장일 00:00 KST ~ 다음날 10:00 KST</div>
+      </div>
+      <button class="modal-close" id="modal-close">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-stats" id="modal-stats"></div>
+      <div class="canvas-wrap">
+        <canvas id="chart-canvas" height="400"></canvas>
+        <div class="chart-loading" id="chart-loading"><div class="spinner"></div> 캔들 데이터 로딩 중...</div>
+        <div class="chart-tooltip" id="chart-tooltip"></div>
+      </div>
+      <div class="chart-legend">
+        <span class="leg"><span class="leg-dot" style="background:#ff4757"></span>상승봉</span>
+        <span class="leg"><span class="leg-dot" style="background:#2979ff"></span>하락봉</span>
+        <span class="leg"><span class="leg-dot" style="background:#ffb830"></span>고점</span>
+        <span class="leg"><span class="leg-dot" style="background:#22c55e"></span>저점</span>
+        <span class="leg"><span class="leg-dot" style="background:#e040fb"></span>오전 9시</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const DATA=[
+  {ticker:"ZK",listing_date:"2026-01-06",peak_price:62.4,peak_time_kst:"01/06 18:35",pump_pct:42.14,low_price:51.2,low_time:"2026-01-07T03:00:00",low_time_kst:"01/07 03:00",dump_pct:-17.95,vol_ratio:3.29,vol_signal:"매집",bottom_type:"싱글 바텀",price_9am:52.8,rebound_pre9:5.66,rebound_9to930:0.76},
+  {ticker:"BREV",listing_date:"2026-01-07",peak_price:890,peak_time_kst:"01/07 15:11",pump_pct:14.54,low_price:626,low_time:"2026-01-08T08:54:00",low_time_kst:"01/08 08:54",dump_pct:-29.66,vol_ratio:9.73,vol_signal:"강한매집",bottom_type:"싱글 바텀",price_9am:640,rebound_pre9:2.4,rebound_9to930:12.5},
+  {ticker:"ELSA",listing_date:"2026-01-22",peak_price:413,peak_time_kst:"01/22 16:45",pump_pct:144.38,low_price:222,low_time:"2026-01-23T02:19:00",low_time_kst:"01/23 02:19",dump_pct:-46.25,vol_ratio:3.47,vol_signal:"매집",bottom_type:"싱글 바텀",price_9am:256,rebound_pre9:18.02,rebound_9to930:2.34},
+  {ticker:"SENT",listing_date:"2026-01-29",peak_price:56.7,peak_time_kst:"01/29 19:55",pump_pct:27.42,low_price:46.4,low_time:"2026-01-30T01:16:00",low_time_kst:"01/30 01:16",dump_pct:-18.17,vol_ratio:8.01,vol_signal:"강한매집",bottom_type:"더블 바텀",price_9am:49.7,rebound_pre9:13.58,rebound_9to930:13.28},
+  {ticker:"BIRB",listing_date:"2026-02-03",peak_price:799,peak_time_kst:"02/03 18:05",pump_pct:149.69,low_price:428,low_time:"2026-02-04T05:00:00",low_time_kst:"02/04 05:00",dump_pct:-46.43,vol_ratio:1.66,vol_signal:"보통",bottom_type:"더블 바텀",price_9am:463,rebound_pre9:10.05,rebound_9to930:7.99},
+  {ticker:"TAO",listing_date:"2026-02-16",peak_price:303900,peak_time_kst:"02/16 16:05",pump_pct:1.44,low_price:272000,low_time:"2026-02-16T17:04:00",low_time_kst:"02/16 17:04",dump_pct:-10.5,vol_ratio:1.55,vol_signal:"보통",bottom_type:"트리플 바텀",price_9am:292300,rebound_pre9:10.66,rebound_9to930:0.86},
+  {ticker:"AZTEC",listing_date:"2026-02-20",peak_price:60.8,peak_time_kst:"02/20 16:46",pump_pct:141.27,low_price:41.6,low_time:"2026-02-20T18:24:00",low_time_kst:"02/20 18:24",dump_pct:-31.58,vol_ratio:1.78,vol_signal:"보통",bottom_type:"싱글 바텀",price_9am:48.4,rebound_pre9:31.25,rebound_9to930:5.37},
+  {ticker:"SKR",listing_date:"2026-02-24",peak_price:48.4,peak_time_kst:"02/24 16:05",pump_pct:86.15,low_price:34.5,low_time:"2026-02-24T23:55:00",low_time_kst:"02/24 23:55",dump_pct:-28.72,vol_ratio:3.03,vol_signal:"매집",bottom_type:"더블 바텀",price_9am:37.6,rebound_pre9:12.46,rebound_9to930:7.18},
+  {ticker:"ESP",listing_date:"2026-02-24",peak_price:344,peak_time_kst:"02/24 17:06",pump_pct:34.38,low_price:236,low_time:"2026-02-25T01:58:00",low_time_kst:"02/25 01:58",dump_pct:-31.4,vol_ratio:2.99,vol_signal:"보통",bottom_type:"싱글 바텀",price_9am:269,rebound_pre9:20.76,rebound_9to930:1.49},
+  {ticker:"CFG",listing_date:"2026-02-26",peak_price:359,peak_time_kst:"02/26 14:05",pump_pct:214.91,low_price:197,low_time:"2026-02-27T02:20:00",low_time_kst:"02/27 02:20",dump_pct:-45.13,vol_ratio:1.45,vol_signal:"약한",bottom_type:"싱글 바텀",price_9am:207,rebound_pre9:19.29,rebound_9to930:2.42},
+  {ticker:"EDGE",listing_date:"2026-03-04",peak_price:432,peak_time_kst:"03/04 17:05",pump_pct:229.77,low_price:250,low_time:"2026-03-05T02:28:00",low_time_kst:"03/05 02:28",dump_pct:-42.13,vol_ratio:2.13,vol_signal:"보통",bottom_type:"싱글 바텀",price_9am:269,rebound_pre9:13.2,rebound_9to930:2.6},
+  {ticker:"ICP",listing_date:"2026-03-11",peak_price:4331,peak_time_kst:"03/11 17:23",pump_pct:11.51,low_price:3800,low_time:"2026-03-12T02:49:00",low_time_kst:"03/12 02:49",dump_pct:-12.26,vol_ratio:1.68,vol_signal:"보통",bottom_type:"4회 바텀",price_9am:3927,rebound_pre9:3.68,rebound_9to930:0.05},
+  {ticker:"ETHFI",listing_date:"2026-03-19",peak_price:912,peak_time_kst:"03/19 12:35",pump_pct:24.93,low_price:781,low_time:"2026-03-20T02:09:00",low_time_kst:"03/20 02:09",dump_pct:-14.36,vol_ratio:13.6,vol_signal:"강한매집",bottom_type:"더블 바텀",price_9am:795,rebound_pre9:3.71,rebound_9to930:0.38},
+  {ticker:"KAT",listing_date:"2026-03-26",peak_price:24.4,peak_time_kst:"03/26 19:05",pump_pct:1.67,low_price:19.1,low_time:"2026-03-27T05:04:00",low_time_kst:"03/27 05:04",dump_pct:-21.72,vol_ratio:4.86,vol_signal:"매집",bottom_type:"더블 바텀",price_9am:19.5,rebound_pre9:5.24,rebound_9to930:2.05},
+  {ticker:"SKY",listing_date:"2026-03-31",peak_price:126,peak_time_kst:"03/31 17:48",pump_pct:5.0,low_price:110,low_time:"2026-03-31T17:58:00",low_time_kst:"03/31 17:58",dump_pct:-12.7,vol_ratio:0.74,vol_signal:"약한",bottom_type:"4회 바텀",price_9am:112,rebound_pre9:4.55,rebound_9to930:0.89},
+  {ticker:"ZAMA",listing_date:"2026-04-14",peak_price:61.8,peak_time_kst:"04/14 19:30",pump_pct:21.41,low_price:46.8,low_time:"2026-04-15T04:21:00",low_time_kst:"04/15 04:21",dump_pct:-24.27,vol_ratio:3.71,vol_signal:"매집",bottom_type:"더블 바텀",price_9am:47.7,rebound_pre9:5.98,rebound_9to930:1.05},
+  {ticker:"CC",listing_date:"2026-04-15",peak_price:235,peak_time_kst:"04/15 15:10",pump_pct:6.82,low_price:218,low_time:"2026-04-15T15:42:00",low_time_kst:"04/15 15:42",dump_pct:-7.23,vol_ratio:2.31,vol_signal:"보통",bottom_type:"더블 바텀",price_9am:221,rebound_pre9:6.42,rebound_9to930:0.45},
+  {ticker:"SOON",listing_date:"2026-04-17",peak_price:496,peak_time_kst:"04/17 14:44",pump_pct:140.78,low_price:303,low_time:"2026-04-17T18:47:00",low_time_kst:"04/17 18:47",dump_pct:-38.91,vol_ratio:2.49,vol_signal:"보통",bottom_type:"싱글 바텀",price_9am:331,rebound_pre9:18.81,rebound_9to930:0.91},
+  {ticker:"PIEVERSE",listing_date:"2026-04-20",peak_price:1800,peak_time_kst:"04/20 16:05",pump_pct:28.57,low_price:1110,low_time:"2026-04-21T03:54:00",low_time_kst:"04/21 03:54",dump_pct:-38.33,vol_ratio:2.11,vol_signal:"보통",bottom_type:"싱글 바텀",price_9am:1434,rebound_pre9:39.64,rebound_9to930:4.88},
+  {ticker:"CHIP",listing_date:"2026-04-21",peak_price:105,peak_time_kst:"04/21 22:05",pump_pct:23.09,low_price:83.3,low_time:"2026-04-22T02:27:00",low_time_kst:"04/22 02:27",dump_pct:-20.67,vol_ratio:2.61,vol_signal:"보통",bottom_type:"트리플 바텀",price_9am:91.2,rebound_pre9:19.45,rebound_9to930:4.39},
+  {ticker:"SPK",listing_date:"2026-04-23",peak_price:95.3,peak_time_kst:"04/23 20:02",pump_pct:19.12,low_price:72.7,low_time:"2026-04-24T04:41:00",low_time_kst:"04/24 04:41",dump_pct:-23.71,vol_ratio:3.06,vol_signal:"매집",bottom_type:"싱글 바텀",price_9am:78.1,rebound_pre9:8.53,rebound_9to930:0.38},
+  {ticker:"PRL",listing_date:"2026-04-27",peak_price:566,peak_time_kst:"04/27 23:07",pump_pct:28.05,low_price:428,low_time:"2026-04-28T04:13:00",low_time_kst:"04/28 04:13",dump_pct:-24.38,vol_ratio:1.12,vol_signal:"약한",bottom_type:"싱글 바텀",price_9am:479,rebound_pre9:20.09,rebound_9to930:2.71},
+  {ticker:"XCN",listing_date:"2026-04-27",peak_price:12.8,peak_time_kst:"04/27 16:12",pump_pct:18.52,low_price:8.67,low_time:"2026-04-28T01:03:00",low_time_kst:"04/28 01:03",dump_pct:-32.27,vol_ratio:7.9,vol_signal:"강한매집",bottom_type:"더블 바텀",price_9am:9.03,rebound_pre9:7.38,rebound_9to930:1.44},
+  {ticker:"BLEND",listing_date:"2026-04-29",peak_price:370,peak_time_kst:"04/29 14:05",pump_pct:200.81,low_price:225,low_time:"2026-04-30T02:38:00",low_time_kst:"04/30 02:38",dump_pct:-39.19,vol_ratio:4.61,vol_signal:"매집",bottom_type:"싱글 바텀",price_9am:249,rebound_pre9:21.33,rebound_9to930:7.63},
+  {ticker:"MEGA",listing_date:"2026-04-30",peak_price:348,peak_time_kst:"04/30 20:08",pump_pct:43.8,low_price:215,low_time:"2026-05-01T03:59:00",low_time_kst:"05/01 03:59",dump_pct:-38.22,vol_ratio:14.31,vol_signal:"강한매집",bottom_type:"싱글 바텀",price_9am:250,rebound_pre9:19.53,rebound_9to930:0.4},
+  {ticker:"WIF",listing_date:"2026-05-06",peak_price:357,peak_time_kst:"05/06 16:05",pump_pct:0.85,low_price:320,low_time:"2026-05-07T00:08:00",low_time_kst:"05/07 00:08",dump_pct:-10.36,vol_ratio:4.93,vol_signal:"매집",bottom_type:"4회 바텀",price_9am:324,rebound_pre9:3.12,rebound_9to930:0.62},
+  {ticker:"B3",listing_date:"2026-05-07",peak_price:3.05,peak_time_kst:"05/07 14:09",pump_pct:19.14,low_price:2.06,low_time:"2026-05-07T16:44:00",low_time_kst:"05/07 16:44",dump_pct:-32.46,vol_ratio:1.09,vol_signal:"약한",bottom_type:"싱글 바텀",price_9am:2.35,rebound_pre9:30.58,rebound_9to930:2.98},
+  {ticker:"PROS",listing_date:"2026-05-08",peak_price:1510,peak_time_kst:"05/08 21:40",pump_pct:86.19,low_price:1209,low_time:"2026-05-09T03:47:00",low_time_kst:"05/09 03:47",dump_pct:-19.93,vol_ratio:4.68,vol_signal:"매집",bottom_type:"더블 바텀",price_9am:1307,rebound_pre9:7.94,rebound_9to930:4.59},
+  {ticker:"VVV",listing_date:"2026-05-12",peak_price:27360,peak_time_kst:"05/12 16:07",pump_pct:18.96,low_price:23600,low_time:"2026-05-13T05:41:00",low_time_kst:"05/13 05:41",dump_pct:-13.74,vol_ratio:2.01,vol_signal:"보통",bottom_type:"트리플 바텀",price_9am:24190,rebound_pre9:3.52,rebound_9to930:0.17},
+  {ticker:"UP2",listing_date:"2026-05-13",peak_price:464,peak_time_kst:"05/13 23:12",pump_pct:165.14,low_price:263,low_time:"2026-05-14T02:56:00",low_time_kst:"05/14 02:56",dump_pct:-43.32,vol_ratio:5.46,vol_signal:"강한매집",bottom_type:"싱글 바텀",price_9am:293,rebound_pre9:16.35,rebound_9to930:1.71},
+  {ticker:"IRYS",listing_date:"2026-05-15",peak_price:146,peak_time_kst:"05/15 20:54",pump_pct:41.75,low_price:85.3,low_time:"2026-05-16T01:46:00",low_time_kst:"05/16 01:46",dump_pct:-41.58,vol_ratio:1.82,vol_signal:"보통",bottom_type:"트리플 바텀",price_9am:91.7,rebound_pre9:10.9,rebound_9to930:1.09},
+  {ticker:"TRAC",listing_date:"2026-05-18",peak_price:931,peak_time_kst:"05/18 16:35",pump_pct:109.68,low_price:601,low_time:"2026-05-19T00:34:00",low_time_kst:"05/19 00:34",dump_pct:-35.45,vol_ratio:0.8,vol_signal:"약한",bottom_type:"싱글 바텀",price_9am:631,rebound_pre9:14.48,rebound_9to930:0.63},
+  {ticker:"IO",listing_date:"2026-05-29",peak_price:332,peak_time_kst:"05/29 18:59",pump_pct:50.91,low_price:255,low_time:"2026-05-30T08:10:00",low_time_kst:"05/30 08:10",dump_pct:-23.19,vol_ratio:2.92,vol_signal:"보통",bottom_type:"싱글 바텀",price_9am:255,rebound_pre9:1.96,rebound_9to930:4.31},
+  {ticker:"SLX",listing_date:"2026-06-01",peak_price:748,peak_time_kst:"06/01 15:30",pump_pct:198.01,low_price:435,low_time:"2026-06-01T23:54:00",low_time_kst:"06/01 23:54",dump_pct:-41.84,vol_ratio:5.75,vol_signal:"강한매집",bottom_type:"싱글 바텀",price_9am:520,rebound_pre9:27.59,rebound_9to930:2.69},
+  {ticker:"BABY",listing_date:"2026-06-05",peak_price:40.7,peak_time_kst:"06/05 20:14",pump_pct:19.71,low_price:26.5,low_time:"2026-06-06T08:10:00",low_time_kst:"06/06 08:10",dump_pct:-34.89,vol_ratio:4.38,vol_signal:"매집",bottom_type:"더블 바텀",price_9am:27.3,rebound_pre9:4.53,rebound_9to930:1.1},
+  {ticker:"SPX",listing_date:"2026-06-16",peak_price:614,peak_time_kst:"06/16 14:12",pump_pct:6.04,low_price:565,low_time:"2026-06-16T15:57:00",low_time_kst:"06/16 15:57",dump_pct:-7.98,vol_ratio:2.3,vol_signal:"보통",bottom_type:"7회 바텀",price_9am:585,rebound_pre9:7.61,rebound_9to930:1.88},
+  {ticker:"RE",listing_date:"2026-06-19",peak_price:1388,peak_time_kst:"06/20 08:23",pump_pct:14.81,low_price:1337,low_time:"2026-06-20T08:57:00",low_time_kst:"06/20 08:57",dump_pct:-3.67,vol_ratio:2.31,vol_signal:"보통",bottom_type:"싱글 바텀",price_9am:1356,rebound_pre9:1.42,rebound_9to930:1.62},
+  {ticker:"ARX",listing_date:"2026-06-23",peak_price:690,peak_time_kst:"06/23 14:05",pump_pct:3.92,low_price:476,low_time:"2026-06-24T03:24:00",low_time_kst:"06/24 03:24",dump_pct:-31.01,vol_ratio:4.07,vol_signal:"매집",bottom_type:"더블 바텀",price_9am:490,rebound_pre9:7.98,rebound_9to930:2.86},
+  {ticker:"AI",listing_date:"2026-06-30",peak_price:63.9,peak_time_kst:"06/30 21:17",pump_pct:8.31,low_price:49.9,low_time:"2026-07-01T03:27:00",low_time_kst:"07/01 03:27",dump_pct:-21.91,vol_ratio:2.48,vol_signal:"보통",bottom_type:"트리플 바텀",price_9am:53.7,rebound_pre9:11.62,rebound_9to930:4.66},
+  {ticker:"OPG",listing_date:"2026-07-07",peak_price:240,peak_time_kst:"07/07 15:35",pump_pct:3.0,low_price:185,low_time:"2026-07-07T17:32:00",low_time_kst:"07/08 02:32",dump_pct:-22.92,vol_ratio:5.65,vol_signal:"강한매집",bottom_type:"싱글 바텀",price_9am:193,rebound_pre9:5.41,rebound_9to930:2.59},
+  {ticker:"DRV",listing_date:"2026-07-14",peak_price:306,peak_time_kst:"07/14 17:39",pump_pct:28.03,low_price:211,low_time:"2026-07-14T14:21:00",low_time_kst:"07/14 23:21",dump_pct:-31.05,vol_ratio:7.01,vol_signal:"강한매집",bottom_type:"싱글 바텀",price_9am:228,rebound_pre9:13.74,rebound_9to930:1.32},
+  {ticker:"O",listing_date:"2026-07-23",peak_price:1045,peak_time_kst:"07/23 15:32",pump_pct:14.84,low_price:800,low_time:"2026-07-23T23:58:00",low_time_kst:"07/24 08:58",dump_pct:-23.44,vol_ratio:8.19,vol_signal:"강한매집",bottom_type:"싱글 바텀",price_9am:812,rebound_pre9:1.75,rebound_9to930:1.23},
+  {ticker:"MORPHO",listing_date:"2026-07-25",peak_price:3049,peak_time_kst:"07/25 18:35",pump_pct:1.74,low_price:2830,low_time:"2026-07-25T11:32:00",low_time_kst:"07/25 20:32",dump_pct:-7.18,vol_ratio:1.7,vol_signal:"보통",bottom_type:"싱글 바텀",price_9am:2894,rebound_pre9:5.97,rebound_9to930:2.38},
+  {ticker:"EUL",listing_date:"2026-07-26",peak_price:3990,peak_time_kst:"07/26 14:29",pump_pct:16.7,low_price:3270,low_time:"2026-07-26T14:27:00",low_time_kst:"07/26 23:27",dump_pct:-18.05,vol_ratio:1.93,vol_signal:"보통",bottom_type:"싱글 바텀",price_9am:3343,rebound_pre9:14.83,rebound_9to930:1.85},
+  {ticker:"GEOD",listing_date:"2026-07-27",peak_price:512,peak_time_kst:"07/27 18:09",pump_pct:6.89,low_price:344,low_time:"2026-07-27T23:57:00",low_time_kst:"07/28 08:57",dump_pct:-32.81,vol_ratio:3.49,vol_signal:"매집",bottom_type:"싱글 바텀",price_9am:351,rebound_pre9:3.49,rebound_9to930:0.57},
+  {ticker:"META2",listing_date:"2026-07-29",peak_price:10750,peak_time_kst:"07/29 18:05",pump_pct:7.5,low_price:7200,low_time:"2026-07-29T19:22:00",low_time_kst:"07/30 04:22",dump_pct:-33.02,vol_ratio:6.25,vol_signal:"강한매집",bottom_type:"싱글 바텀",price_9am:7365,rebound_pre9:4.03,rebound_9to930:2.04},
+  {ticker:"CFX",listing_date:"2026-07-31",peak_price:65.8,peak_time_kst:"07/31 18:05",pump_pct:24.39,low_price:57.4,low_time:"2026-07-31T11:47:00",low_time_kst:"07/31 20:47",dump_pct:-12.77,vol_ratio:2.69,vol_signal:"보통",bottom_type:"싱글 바텀",price_9am:60.5,rebound_pre9:10.45,rebound_9to930:0.5},
+  {ticker:"QUID",listing_date:"2026-08-04",peak_price:207,peak_time_kst:"08/04 23:22",pump_pct:4.02,low_price:164,low_time:"2026-08-04T18:22:00",low_time_kst:"08/05 03:22",dump_pct:-20.77,vol_ratio:4.53,vol_signal:"매집",bottom_type:"싱글 바텀",price_9am:171,rebound_pre9:8.54,rebound_9to930:3.51},
+  {ticker:"HOME",listing_date:"2026-08-04",peak_price:17.3,peak_time_kst:"08/04 22:06",pump_pct:90.32,low_price:12.8,low_time:"2026-08-04T22:14:00",low_time_kst:"08/05 07:14",dump_pct:-26.01,vol_ratio:3.42,vol_signal:"매집",bottom_type:"싱글 바텀",price_9am:12.9,rebound_pre9:5.47,rebound_9to930:10.08},
+  {ticker:"GRVT",listing_date:"2026-08-05",peak_price:505,peak_time_kst:"08/05 17:43",pump_pct:12.22,low_price:425,low_time:"2026-08-05T22:33:00",low_time_kst:"08/06 07:33",dump_pct:-15.84,vol_ratio:3.8,vol_signal:"매집",bottom_type:"싱글 바텀",price_9am:426,rebound_pre9:2.82,rebound_9to930:3.29},
+  {ticker:"CAP",listing_date:"2026-08-06",peak_price:47.8,peak_time_kst:"08/06 14:38",pump_pct:9.89,low_price:40.2,low_time:"2026-08-06T08:05:00",low_time_kst:"08/06 17:05",dump_pct:-15.9,vol_ratio:11.87,vol_signal:"강한매집",bottom_type:"싱글 바텀",price_9am:43.5,rebound_pre9:13.43,rebound_9to930:2.99},
+  {ticker:"BSB",listing_date:"2026-08-07",peak_price:240,peak_time_kst:"08/07 16:25",pump_pct:9.59,low_price:216,low_time:"2026-08-07T07:38:00",low_time_kst:"08/07 16:38",dump_pct:-10.0,vol_ratio:3.22,vol_signal:"매집",bottom_type:"싱글 바텀",price_9am:233,rebound_pre9:10.19,rebound_9to930:1.72},
+  {ticker:"KMNO",listing_date:"2026-08-07",peak_price:30.9,peak_time_kst:"08/07 19:36",pump_pct:4.75,low_price:26.5,low_time:"2026-08-07T15:30:00",low_time_kst:"08/08 00:30",dump_pct:-14.24,vol_ratio:3.51,vol_signal:"매집",bottom_type:"싱글 바텀",price_9am:27.1,rebound_pre9:5.28,rebound_9to930:0.0},
+  {ticker:"DOS",listing_date:"2026-08-11",peak_price:907,peak_time_kst:"08/11 16:15",pump_pct:13.94,low_price:497,low_time:"2026-08-11T17:47:00",low_time_kst:"08/12 02:47",dump_pct:-45.2,vol_ratio:3.44,vol_signal:"매집",bottom_type:"싱글 바텀",price_9am:539,rebound_pre9:15.09,rebound_9to930:2.78},
+  {ticker:"PROM",listing_date:"2026-08-12",peak_price:5075,peak_time_kst:"08/12 21:44",pump_pct:15.5,low_price:3500,low_time:"2026-08-12T17:27:00",low_time_kst:"08/13 02:27",dump_pct:-31.03,vol_ratio:1.22,vol_signal:"약한",bottom_type:"싱글 바텀",price_9am:3795,rebound_pre9:12.03,rebound_9to930:2.82},
+  {ticker:"CRV",listing_date:"2026-08-21",peak_price:479,peak_time_kst:"08/22 08:40",pump_pct:32.69,low_price:469,low_time:"2026-08-21T23:53:00",low_time_kst:"08/22 08:53",dump_pct:-2.09,vol_ratio:1.3,vol_signal:"약한",bottom_type:"싱글 바텀",price_9am:472,rebound_pre9:0.85,rebound_9to930:0.85},
+  {ticker:"FOLD",listing_date:"2026-08-23",peak_price:224,peak_time_kst:"08/23 12:35",pump_pct:98.23,low_price:149,low_time:"2026-08-23T06:19:00",low_time_kst:"08/23 15:19",dump_pct:-33.48,vol_ratio:3.7,vol_signal:"매집",bottom_type:"싱글 바텀",price_9am:160,rebound_pre9:35.57,rebound_9to930:6.88},
+  {ticker:"LIT",listing_date:"2026-08-24",peak_price:5200,peak_time_kst:"08/24 13:27",pump_pct:6.06,low_price:4494,low_time:"2026-08-24T17:37:00",low_time_kst:"08/25 02:37",dump_pct:-13.58,vol_ratio:1.24,vol_signal:"약한",bottom_type:"싱글 바텀",price_9am:4674,rebound_pre9:8.54,rebound_9to930:0.39},
+  {ticker:"NCT",listing_date:"2026-08-26",peak_price:41.1,peak_time_kst:"08/26 21:30",pump_pct:73.42,low_price:25.1,low_time:"2026-08-26T16:41:00",low_time_kst:"08/27 01:41",dump_pct:-38.93,vol_ratio:1.8,vol_signal:"보통",bottom_type:"싱글 바텀",price_9am:26.1,rebound_pre9:12.35,rebound_9to930:3.83},
+  {ticker:"CP",listing_date:"2026-09-08",peak_price:33.6,peak_time_kst:"09/08 14:41",pump_pct:42.98,low_price:23.2,low_time:"2026-09-08T13:37:00",low_time_kst:"09/08 22:37",dump_pct:-30.95,vol_ratio:3.14,vol_signal:"매집",bottom_type:"싱글 바텀",price_9am:null,rebound_pre9:6.47,rebound_9to930:0},
+  {ticker:"BFC",listing_date:"2026-09-10",peak_price:77.5,peak_time_kst:"09/10 13:52",pump_pct:27.05,low_price:46.9,low_time:"2026-09-10T10:24:00",low_time_kst:"09/10 19:24",dump_pct:-39.48,vol_ratio:4.37,vol_signal:"선점",bottom_type:"싱글 바텀",price_9am:52.2,rebound_pre9:11.30,rebound_9to930:-0.38},
+  {ticker:"CASHCAT",listing_date:"2026-09-28",peak_price:286,peak_time_kst:"09/28 17:12",pump_pct:11.72,low_price:236,low_time:"2026-09-28T15:52:00",low_time_kst:"09/29 00:52",dump_pct:-17.48,vol_ratio:5.11,vol_signal:"선점",bottom_type:"싱글 바텀",price_9am:246,rebound_pre9:4.24,rebound_9to930:-3.25},
+  {ticker:"POD",listing_date:"2026-10-02",peak_price:1085,peak_time_kst:"10/02 16:05",pump_pct:107.46,low_price:716,low_time:"2026-10-02T16:42:00",low_time_kst:"10/03 01:42",dump_pct:-34.01,vol_ratio:0.79,vol_signal:"매집",bottom_type:"싱글 바텀",price_9am:755,rebound_pre9:5.45,rebound_9to930:15.63},
+];
+
+function fmt(n,d=2){return n==null?'—':n.toLocaleString('ko-KR',{minimumFractionDigits:d,maximumFractionDigits:d});}
+function fmtP(p){if(p==null)return'—';if(p>=10000)return Math.round(p).toLocaleString('ko-KR');if(p>=100)return Math.round(p).toLocaleString('ko-KR');if(p>=1)return p.toFixed(1);return p.toFixed(3);}
+
+function lowSlot(d){
+  const utc=new Date(d.low_time+'Z');
+  const kst=new Date(utc.getTime()+9*3600*1000);
+  let m=kst.getUTCHours()*60+kst.getUTCMinutes();
+  if(m<12*60)m+=24*60;
+  return m;
+}
+
+function isDark(){
+  const t=document.documentElement.getAttribute('data-theme');
+  if(t)return t==='dark';
+  return window.matchMedia('(prefers-color-scheme: dark)').matches;
+}
+
+// KPI
+function renderStats(){
+  const n=DATA.length;
+  const avgDump=DATA.reduce((s,d)=>s+d.dump_pct,0)/n;
+  const avgReb=DATA.reduce((s,d)=>s+d.rebound_pre9,0)/n;
+  const strong=DATA.filter(d=>d.vol_signal==='강한매집').length;
+  const slots=DATA.map(d=>lowSlot(d));
+  const avg=slots.reduce((s,v)=>s+v,0)/n;
+  const h=Math.floor(avg/60)%24,m=Math.round(avg%60);
+  const ts=`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
+  const cards=[
+    {l:'분석 코인',v:`${n}개`,s:'2026년 KRW 신규상장',c:''},
+    {l:'평균 저점시간',v:ts,s:'KST 기준',c:''},
+    {l:'평균 덤프',v:`${fmt(Math.abs(avgDump),1)}%`,s:'고점→저점',c:'c-down'},
+    {l:'9시前 평균반등',v:`${fmt(avgReb,1)}%`,s:'저점→오전9시',c:'c-up'},
+    {l:'🔥 강한 매집',v:`${strong}개`,s:`전체의 ${Math.round(strong/n*100)}%`,c:'c-gold'},
+  ];
+  document.getElementById('stats-row').innerHTML=cards.map(c=>`
+    <div class="kpi"><div class="kpi-label">${c.l}</div>
+    <div class="kpi-value ${c.c}">${c.v}</div>
+    <div class="kpi-sub">${c.s}</div></div>`).join('');
+}
+
+// Distribution
+function renderDist(){
+  const BINS=[];
+  for(let m=12*60;m<33*60;m+=30){
+    const h=Math.floor(m/60)%24,mn=m%60;
+    BINS.push({label:`${String(h).padStart(2,'0')}:${String(mn).padStart(2,'0')}`,count:0,coins:[]});
+  }
+  DATA.forEach(d=>{
+    const mins=lowSlot(d);
+    const bi=Math.floor((mins-12*60)/30);
+    if(bi>=0&&bi<BINS.length){BINS[bi].count++;BINS[bi].coins.push(d.ticker);}
+  });
+  const maxC=Math.max(...BINS.map(b=>b.count),1);
+  const W=1100,H=130,pL=10,pR=10,pT=20,pB=36;
+  const cW=W-pL-pR,cH=H-pT-pB,bw=cW/BINS.length;
+  const dark=isDark();
+  const ac=dark?'#00c4f8':'#0059c8',mt=dark?'#5a7090':'#9aabb8';
+  const svg=document.getElementById('dist-svg');
+  svg.setAttribute('viewBox',`0 0 ${W} ${H}`);svg.setAttribute('width',W);
+  let bars='',labs='',ticks='';
+  BINS.forEach((b,i)=>{
+    const x=pL+i*bw,bh=b.count>0?(b.count/maxC)*cH:0,y=pT+cH-bh;
+    const hi=b.count===maxC&&b.count>0;
+    bars+=`<rect x="${x+1}" y="${y}" width="${bw-2}" height="${bh}" fill="${hi?ac:(b.count>0?(dark?'#2979ff55':'#1a60d422'):(dark?'#1e2d4733':'#dde3ed55'))}" stroke="${b.count>0?ac:'none'}" stroke-width="${hi?1.5:.5}" opacity="${b.count>0?1:.3}" rx="2"><title>${b.label} KST: ${b.count}개 (${b.coins.join(', ')||'없음'})</title></rect>`;
+    if(b.count>0)bars+=`<text x="${x+bw/2}" y="${y-4}" text-anchor="middle" font-size="9" fill="${hi?ac:mt}" font-weight="${hi?700:400}">${b.count}</text>`;
+    if(b.label.endsWith(':00')){
+      ticks+=`<line x1="${x}" y1="${pT}" x2="${x}" y2="${pT+cH}" stroke="${mt}" stroke-width=".5" stroke-dasharray="2,3"/>`;
+      labs+=`<text x="${x}" y="${H-6}" text-anchor="middle" font-size="10" fill="${mt}">${b.label}</text>`;
+    }
+  });
+  // Midnight
+  const midX=pL+((24*60-12*60)/30)*bw;
+  const goldC=dark?'#ffb830':'#b87520';
+  ticks+=`<line x1="${midX}" y1="${pT-4}" x2="${midX}" y2="${pT+cH}" stroke="${goldC}" stroke-width="1.5"/>`;
+  labs+=`<text x="${midX+4}" y="${pT+11}" font-size="9" fill="${goldC}" font-weight="600">자정</text>`;
+  // 9AM
+  const nineX=pL+((33*60-12*60)/30)*bw;
+  ticks+=`<line x1="${nineX}" y1="${pT-4}" x2="${nineX}" y2="${pT+cH}" stroke="#e040fb" stroke-width="1.5"/>`;
+  labs+=`<text x="${nineX-3}" y="${H-6}" text-anchor="end" font-size="10" fill="#e040fb" font-weight="600">09:00</text>`;
+  svg.innerHTML=ticks+bars+labs;
+}
+
+// ── 투자유의 코인 데이터 (업비트 원화 시세 확인 가능한 16건) ──
+// 공지前: 전일종가→공지 직전 등락률 (전일비)
+// 공지후1h최저: 공지 직전 가격 대비 1시간 내 최저 낙폭
+// 당일최저/마감: 전일 종가 대비
+const CAUTION_DATA=[
+  {ticker:"BLAST",  caution_date:"2026-10-03", pre_chg:-18.7, post1h_low:-20.8, day_low:-39.8, day_close:-38.2, rebound_pre9:4.1,  rebound_930:-0.3},
+  {ticker:"ZKC",    caution_date:"2026-10-02", pre_chg:+2.7,  post1h_low:-16.8, day_low:-27.3, day_close:-24.2, rebound_pre9:4.1,  rebound_930:-1.2},
+  {ticker:"RVN",    caution_date:"2026-08-11", pre_chg:-1.6,  post1h_low:-18.4, day_low:-26.7, day_close:-24.3, rebound_pre9:3.0,  rebound_930:-4.2},
+  {ticker:"SAND",   caution_date:"2026-08-24", pre_chg:-2.8,  post1h_low:-22.1, day_low:-24.2, day_close:-22.0, rebound_pre9:2.8,  rebound_930:-3.1},
+  {ticker:"TAIKO",  caution_date:"2026-06-22", pre_chg:-7.7,  post1h_low:-15.2, day_low:-21.7, day_close:-20.3, rebound_pre9:1.8,  rebound_930:-3.5},
+  {ticker:"WAVES",  caution_date:"2022-12-08", pre_chg:+1.3,  post1h_low:-9.6,  day_low:-17.6, day_close:-6.5,  rebound_pre9:13.2, rebound_930:-3.8},
+  {ticker:"SOPH",   caution_date:"2026-09-22", pre_chg:-2.3,  post1h_low:-15.6, day_low:-17.5, day_close:-14.2, rebound_pre9:3.8,  rebound_930:-0.6},
+  {ticker:"EGLD",   caution_date:"2026-09-21", pre_chg:-6.1,  post1h_low:-10.2, day_low:-16.6, day_close:-8.8,  rebound_pre9:9.2,  rebound_930:-2.3},
+  {ticker:"INJ",    caution_date:"2026-09-01", pre_chg:+0.2,  post1h_low:-13.7, day_low:-16.5, day_close:-9.8,  rebound_pre9:8.0,  rebound_930:-2.3},
+  {ticker:"MBL",    caution_date:"2022-06-09", pre_chg:+2.7,  post1h_low:0.0,   day_low:-15.2, day_close:-10.4, rebound_pre9:5.8,  rebound_930:-3.7},
+  {ticker:"ICX",    caution_date:"2026-08-28", pre_chg:-2.0,  post1h_low:-10.7, day_low:-13.9, day_close:-8.0,  rebound_pre9:6.9,  rebound_930:1.1},
+  {ticker:"ZIL",    caution_date:"2026-07-22", pre_chg:-4.0,  post1h_low:-9.6,  day_low:-13.2, day_close:-9.7,  rebound_pre9:4.0,  rebound_930:-1.7},
+  {ticker:"KERNEL", caution_date:"2026-04-20", pre_chg:0.0,   post1h_low:-10.1, day_low:-10.1, day_close:-1.0,  rebound_pre9:10.1, rebound_930:-2.9},
+  {ticker:"DOT",    caution_date:"2026-04-13", pre_chg:-2.5,  post1h_low:-3.5,  day_low:-7.1,  day_close:-3.1,  rebound_pre9:4.4,  rebound_930:-1.7},
+  {ticker:"MANTRA", caution_date:"2026-08-21", pre_chg:+1.5,  post1h_low:-8.2,  day_low:-6.8,  day_close:+1.6,  rebound_pre9:9.2,  rebound_930:-0.3},
+  {ticker:"KAVA",   caution_date:"2022-11-03", pre_chg:-1.2,  post1h_low:-0.8,  day_low:-3.7,  day_close:-2.7,  rebound_pre9:2.3,  rebound_930:0.8},
+];
+
+let cSortCol='day_low',cSortDir=1;
+
+function renderCautionTable(){
+  const n=CAUTION_DATA.length;
+  const avgPost=CAUTION_DATA.reduce((s,d)=>s+d.post1h_low,0)/n;
+  const avgLow =CAUTION_DATA.reduce((s,d)=>s+d.day_low,0)/n;
+  const avgClose=CAUTION_DATA.reduce((s,d)=>s+d.day_close,0)/n;
+  const medLow=[...CAUTION_DATA].sort((a,b)=>a.day_low-b.day_low)[Math.floor(n/2)].day_low;
+  const sorted2=[...CAUTION_DATA].sort((a,b)=>{
+    let va=a[cSortCol],vb=b[cSortCol];
+    if(typeof va==='string'){va=va.toLowerCase();vb=vb.toLowerCase();}
+    return(va<vb?-1:va>vb?1:0)*cSortDir;
+  });
+  const pTd=(v,isHighlight=false)=>{
+    if(v==null)return`<td class="r">—</td>`;
+    const cls=v>=0?'pos':'neg',s=v>=0?'+':'';
+    const extra=isHighlight?'class="r day-low-col"':'class="r"';
+    return`<td ${extra} style="color:var(--${v>=0?'up':'down'})">${s}${fmt(v,1)}%</td>`;
+  };
+  const th=(col,label,sub='')=>{
+    const active=cSortCol===col,arr=active?(cSortDir===1?'↑':'↓'):'';
+    return`<th class="${active?'sort-active r':'r'}" onclick="cSort('${col}')">${label}${arr?` <span style="color:var(--accent)">${arr}</span>`:''}${sub?`<br><span style="font-size:9px;font-weight:400;opacity:.7">${sub}</span>`:''}`;
+  };
+  document.getElementById('caution-section').innerHTML=`
+    <div class="section-title">⚠️ 투자유의 지정 코인 낙폭 분석
+      <span style="font-size:11px;font-weight:400;color:var(--muted);margin-left:6px">원화 시세 보존 ${n}건 (2019년~현재) · 열 클릭 정렬</span>
+    </div>
+    <div class="caution-kpis">
+      <div class="kpi"><div class="kpi-label">분석 건수</div><div class="kpi-value">${n}건</div><div class="kpi-sub">원화 차트 남은 사례</div></div>
+      <div class="kpi"><div class="kpi-label">공지후 1h 최저 평균</div><div class="kpi-value c-down">${fmt(avgPost,1)}%</div><div class="kpi-sub">공지 직전가 기준</div></div>
+      <div class="kpi"><div class="kpi-label">당일 최저 평균</div><div class="kpi-value c-down">${fmt(avgLow,1)}%</div><div class="kpi-sub">전일 종가 기준 · 중간값 ${fmt(medLow,1)}%</div></div>
+      <div class="kpi"><div class="kpi-label">당일 마감 평균</div><div class="kpi-value c-down">${fmt(avgClose,1)}%</div><div class="kpi-sub">전일 종가 기준</div></div>
+      <div class="kpi"><div class="kpi-label">9시前 반등 평균</div><div class="kpi-value c-up">+${fmt(CAUTION_DATA.reduce((s,d)=>s+d.rebound_pre9,0)/n,1)}%</div><div class="kpi-sub">저점→다음날 9AM</div></div>
+      <div class="kpi"><div class="kpi-label">9~9:30 변화 평균</div><div class="kpi-value" style="color:var(--${CAUTION_DATA.reduce((s,d)=>s+d.rebound_930,0)>=0?'up':'down'})">${CAUTION_DATA.reduce((s,d)=>s+d.rebound_930,0)>=0?'+':''}${fmt(CAUTION_DATA.reduce((s,d)=>s+d.rebound_930,0)/n,1)}%</div><div class="kpi-sub">9AM→9:30AM</div></div>
+    </div>
+    <div class="table-wrap">
+      <table class="ctbl">
+        <thead><tr>
+          <th onclick="cSort('caution_date')" class="${cSortCol==='caution_date'?'sort-active':''}">지정일${cSortCol==='caution_date'?` <span style="color:var(--accent)">${cSortDir===1?'↑':'↓'}</span>`:''}</th>
+          <th onclick="cSort('ticker')" class="${cSortCol==='ticker'?'sort-active':''}">코인${cSortCol==='ticker'?` <span style="color:var(--accent)">${cSortDir===1?'↑':'↓'}</span>`:''}</th>
+          ${th('pre_chg','공지 전 이미','전일비')}
+          ${th('post1h_low','공지 후 1시간 최저','직전가 기준')}
+          ${th('day_low','당일 최저','전일비')}
+          ${th('day_close','당일 마감','전일비')}
+          ${th('rebound_pre9','9시前 최대반등','저점→9AM')}
+          ${th('rebound_930','9시~9:30 변화','9AM 기준')}
+        </tr></thead>
+        <tbody>${sorted2.map(d=>`<tr>
+          <td style="color:var(--muted);font-size:11px">${d.caution_date}</td>
+          <td><span class="ticker">${d.ticker}</span></td>
+          ${pTd(d.pre_chg)}
+          ${pTd(d.post1h_low)}
+          ${pTd(d.day_low,true)}
+          ${pTd(d.day_close)}
+          <td class="r" style="color:var(--${d.rebound_pre9>=0?'up':'down'})">${d.rebound_pre9>=0?'+':''}${fmt(d.rebound_pre9,1)}%</td>
+          <td class="r" style="color:var(--${d.rebound_930>=0?'up':'down'})">${d.rebound_930>=0?'+':''}${fmt(d.rebound_930,1)}%</td>
+        </tr>`).join('')}</tbody>
+      </table>
+    </div>
+    <div style="font-size:10px;color:var(--muted);margin-top:10px;line-height:1.7">
+      ※ 전체 유의지정 공지 82건 중 원화 시세가 남은 ${n}건만 집계 — 상장폐지 코인은 차트 삭제로 분석 불가 (실제 낙폭은 더 클 가능성 높음)<br>
+      ※ <b>공지후 1h 최저</b>는 공지 직전 가격 기준 / <b>공지 전 이미 · 당일최저 · 당일마감</b>은 전일 종가(09:00 KST) 기준
+    </div>`;
+}
+
+function cSort(col){
+  if(cSortCol===col)cSortDir*=-1;else{cSortCol=col;cSortDir=col==='caution_date'||col==='ticker'?1:-1;}
+  renderCautionTable();
+}
+
+// Table
+let sortCol='listing_date',sortDir=1;
+function volChip(s,r){
+  if(s==='강한매집')return`<span class="chip chip-hot">🔥 강한매집 ×${fmt(r,1)}</span>`;
+  if(s==='매집')return`<span class="chip chip-ok">✅ 매집 ×${fmt(r,1)}</span>`;
+  if(s==='약한')return`<span class="chip chip-weak">⚠️ 약함 ×${fmt(r,1)}</span>`;
+  return`<span class="chip chip-mid">🟡 보통 ×${fmt(r,1)}</span>`;
+}
+function btmDots(t){const m={'싱글 바텀':'⬤','더블 바텀':'⬤⬤','트리플 바텀':'⬤⬤⬤','4회 바텀':'⬤×4','7회 바텀':'⬤×7'};return(m[t]||'⬤')+' '+t;}
+
+function renderTable(){
+  const sorted=[...DATA].sort((a,b)=>{
+    const getV=(d,col)=>col==='listing_open'?Math.round(d.peak_price/(1+d.pump_pct/100)*100)/100:d[col];
+    let va=getV(a,sortCol),vb=getV(b,sortCol);
+    if(typeof va==='string'){va=va.toLowerCase();vb=vb.toLowerCase();}
+    return(va<vb?-1:va>vb?1:0)*sortDir;
+  });
+  document.getElementById('table-body').innerHTML=sorted.map(d=>{
+    const listingOpen=d.listing_open!=null?d.listing_open:Math.round(d.peak_price/(1+d.pump_pct/100)*100)/100;
+    return`<tr data-ticker="${d.ticker}">
+      <td><span class="ticker">${d.ticker}</span></td>
+      <td class="date-cell">${d.listing_date.slice(5)}</td>
+      <td class="price-cell">${fmtP(listingOpen)}</td>
+      <td class="price-cell">${fmtP(d.peak_price)}<span style="font-size:10px;color:#e05;margin-left:3px">(+${fmt(d.pump_pct,1)}%)</span></td>
+      <td class="neg">${fmt(d.dump_pct,1)}%</td>
+      <td class="time-cell">${d.low_time_kst.split(' ')[1]}</td>
+      <td class="price-cell">${fmtP(d.low_price)}<span style="font-size:10px;margin-left:3px;color:${(d.low_price/listingOpen-1)>=0?'#e05':'#2563eb'}">(${fmt((d.low_price/listingOpen-1)*100,1)}%)</span></td>
+      <td style="font-size:11px;color:var(--muted)">${btmDots(d.bottom_type)}</td>
+      <td class="${d.rebound_pre9>=10?'pos':''}">${fmt(d.rebound_pre9,1)}%</td>
+      <td class="price-cell">${fmtP(d.price_9am)}</td>
+      <td class="${d.rebound_9to930>=5?'pos':''}">${fmt(d.rebound_9to930,1)}%</td>
+    </tr>`;}).join('');
+  document.querySelectorAll('#table-body tr').forEach(tr=>{
+    tr.addEventListener('click',()=>{
+      document.querySelectorAll('#table-body tr').forEach(r=>r.classList.remove('selected'));
+      tr.classList.add('selected');
+      openModal(DATA.find(d=>d.ticker===tr.dataset.ticker));
+    });
+  });
+  document.querySelectorAll('thead th').forEach(th=>{
+    th.classList.remove('sort-asc','sort-desc');
+    if(th.dataset.col===sortCol)th.classList.add(sortDir===1?'sort-asc':'sort-desc');
+  });
+}
+document.querySelectorAll('thead th').forEach(th=>{
+  th.addEventListener('click',()=>{
+    const c=th.dataset.col;
+    if(sortCol===c)sortDir*=-1;else{sortCol=c;sortDir=-1;}
+    renderTable();
+  });
+});
+
+// Modal
+let curCoin=null,curCandles=[];
+function openModal(coin){
+  curCoin=coin;
+  document.getElementById('modal-title').textContent=`${coin.ticker} — ${coin.listing_date} 1분봉`;
+  document.getElementById('modal-overlay').classList.add('open');
+  document.getElementById('chart-loading').style.display='flex';
+  document.getElementById('modal-stats').innerHTML=[
+    {l:'고점',v:`${fmtP(coin.peak_price)} (${coin.peak_time_kst.split(' ')[1]})`},
+    {l:'저점',v:`${fmtP(coin.low_price)} (${coin.low_time_kst.split(' ')[1]})`},
+    {l:'고점→저점',v:`${fmt(coin.dump_pct,1)}%`,c:'neg'},
+    {l:'9시가격',v:fmtP(coin.price_9am)},
+    {l:'9시前최대반등',v:`+${fmt(coin.rebound_pre9,1)}%`,c:'pos'},
+    {l:'9~9:30반등',v:`+${fmt(coin.rebound_9to930,1)}%`,c:'pos'},
+  ].map(s=>`<div class="mstat"><span class="mstat-l">${s.l}</span><span class="mstat-v ${s.c||''}">${s.v}</span></div>`).join('');
+  fetchDraw(coin);
+}
+async function fetchDraw(coin){
+  try{
+    const from=new Date(coin.listing_date+'T00:00:00+09:00');
+    const to=new Date(coin.listing_date+'T00:00:00+09:00');
+    to.setDate(to.getDate()+1);to.setHours(10,0,0,0);
+    let candles=[],cursor=new Date(to),iters=0;
+    while(iters<20){
+      iters++;
+      const ts=cursor.toISOString().slice(0,19);
+      const resp=await fetch(`https://api.upbit.com/v1/candles/minutes/1?market=KRW-${coin.ticker}&count=200&to=${ts}Z`);
+      const data=await resp.json();
+      if(!data||!data.length)break;
+      candles=candles.concat(data);
+      const oldest=new Date(data[data.length-1].candle_date_time_utc+'Z');
+      if(oldest<=from)break;
+      cursor=oldest;
+      await new Promise(r=>setTimeout(r,110));
+    }
+    candles=candles.filter(c=>{const t=new Date(c.candle_date_time_utc+'Z');return t>=from&&t<=to;});
+    candles.sort((a,b)=>new Date(a.candle_date_time_utc+'Z')-new Date(b.candle_date_time_utc+'Z'));
+    curCandles=candles;
+    document.getElementById('chart-loading').style.display='none';
+    drawChart(coin,candles);
+  }catch(e){document.getElementById('chart-loading').innerHTML=`<span style="color:var(--up)">오류: ${e.message}</span>`;}
+}
+function drawChart(coin,candles){
+  const canvas=document.getElementById('chart-canvas');
+  const W=canvas.offsetWidth||880;
+  canvas.width=W;canvas.height=400;
+  const ctx=canvas.getContext('2d');
+  const dark=isDark();
+  const col={grid:dark?'#1e2d4744':'#cdd6e844',txt:dark?'#5a7090':'#9aabb8',up:dark?'#ff4757':'#d42b3a',dn:dark?'#2979ff':'#1a60d4'};
+  if(!candles.length){ctx.fillStyle=col.txt;ctx.font='13px sans-serif';ctx.fillText('데이터 없음',W/2-30,200);return;}
+  const H=400,cH=290,vH=55,vTop=325,pL=56,pR=12,pT=12;
+  const iW=W-pL-pR;
+  ctx.clearRect(0,0,W,H);
+  const prices=candles.flatMap(c=>[c.high_price,c.low_price]);
+  let minP=Math.min(...prices),maxP=Math.max(...prices);
+  const pr=maxP-minP,pad=pr*.06;
+  minP-=pad;maxP+=pad;
+  const toY=p=>pT+cH-((p-minP)/(maxP-minP))*cH;
+  const n=candles.length,slot=iW/n,cw=Math.max(1,slot*.8);
+  const times=candles.map(c=>new Date(c.candle_date_time_utc+'Z').getTime());
+  const tMin=times[0],tMax=times[times.length-1];
+  const toX=t=>pL+((t-tMin)/(tMax-tMin))*iW;
+  // Grid
+  for(let i=0;i<=5;i++){
+    const p=minP+(maxP-minP)*i/5,y=toY(p);
+    ctx.strokeStyle=col.grid;ctx.lineWidth=.5;
+    ctx.beginPath();ctx.moveTo(pL,y);ctx.lineTo(W-pR,y);ctx.stroke();
+    ctx.fillStyle=col.txt;ctx.font='10px "SF Mono",Consolas,monospace';ctx.textAlign='right';
+    ctx.fillText(fmtP(p),pL-4,y+3);
+  }
+  // Volume
+  const vols=candles.map(c=>c.candle_acc_trade_price||0),maxV=Math.max(...vols,1);
+  candles.forEach((c,i)=>{
+    const x=pL+i*slot+slot/2,vh=(vols[i]/maxV)*vH,isUp=c.trade_price>=c.opening_price;
+    ctx.fillStyle=(isUp?col.up:col.dn)+'55';
+    ctx.fillRect(x-cw/2,vTop+vH-vh,cw,vh);
+  });
+  // Candles
+  candles.forEach((c,i)=>{
+    const x=pL+i*slot+slot/2,isUp=c.trade_price>=c.opening_price,cl=isUp?col.up:col.dn;
+    ctx.strokeStyle=cl;ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(x,toY(c.high_price));ctx.lineTo(x,toY(c.low_price));ctx.stroke();
+    const bT=toY(Math.max(c.opening_price,c.trade_price)),bB=toY(Math.min(c.opening_price,c.trade_price));
+    ctx.fillStyle=cl;ctx.fillRect(x-cw/2,bT,cw,Math.max(1.5,bB-bT));
+  });
+  // Markers
+  const drawV=(kstStr,color,label)=>{
+    const t=new Date(kstStr).getTime();
+    if(t<tMin||t>tMax)return;
+    const x=toX(t);
+    ctx.strokeStyle=color;ctx.lineWidth=1.5;ctx.setLineDash([4,3]);
+    ctx.beginPath();ctx.moveTo(x,pT);ctx.lineTo(x,vTop+vH);ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle=color;ctx.font='bold 10px sans-serif';ctx.textAlign='center';
+    ctx.fillText(label,Math.min(W-pR-20,Math.max(pL+20,x)),pT+10);
+  };
+  // Peak
+  const yr=coin.listing_date.slice(0,4);
+  const [pmd,phm]=coin.peak_time_kst.split(' ');
+  const [pmo,pdy]=pmd.split('/');
+  drawV(`${yr}-${pmo}-${pdy}T${phm}:00+09:00`,dark?'#ffb830':'#b87520','▲ 고점');
+  // Low
+  const [lmd,lhm]=coin.low_time_kst.split(' ');
+  const [lmo,ldy]=lmd.split('/');
+  drawV(`${yr}-${lmo}-${ldy}T${lhm}:00+09:00`,dark?'#22c55e':'#1a7a40','▼ 저점');
+  // 9AM next day
+  const ld=new Date(coin.listing_date+'T00:00:00+09:00');
+  ld.setDate(ld.getDate()+1);
+  const nineStr=`${ld.getFullYear()}-${String(ld.getMonth()+1).padStart(2,'0')}-${String(ld.getDate()).padStart(2,'0')}T09:00:00+09:00`;
+  const nineT=new Date(nineStr).getTime(),nineX=toX(nineT);
+  if(nineX>pL&&nineX<W-pR){
+    ctx.strokeStyle='#e040fb';ctx.lineWidth=2;ctx.setLineDash([]);
+    ctx.beginPath();ctx.moveTo(nineX,pT);ctx.lineTo(nineX,vTop+vH);ctx.stroke();
+    ctx.fillStyle='#e040fb';ctx.font='bold 10px sans-serif';ctx.textAlign='center';
+    ctx.fillText('오전9시',nineX,pT+10);
+  }
+  // X labels (2h)
+  ctx.fillStyle=col.txt;ctx.font='10px "SF Mono",Consolas,monospace';ctx.textAlign='center';
+  let lts=Math.ceil(tMin/(2*3600*1000))*(2*3600*1000);
+  while(lts<=tMax){
+    const x=toX(lts);
+    if(x>pL+20&&x<W-pR-20){
+      const kd=new Date(lts+9*3600*1000);
+      ctx.fillStyle=col.txt;
+      ctx.fillText(`${String(kd.getUTCHours()).padStart(2,'0')}:${String(kd.getUTCMinutes()).padStart(2,'0')}`,x,H-4);
+    }
+    lts+=2*3600*1000;
+  }
+  // Tooltip
+  canvas.onmousemove=e=>{
+    const r=canvas.getBoundingClientRect(),mx=(e.clientX-r.left)*(W/r.width),my=(e.clientY-r.top)*(H/r.height);
+    if(mx<pL||mx>W-pR||my<pT||my>vTop+vH){document.getElementById('chart-tooltip').style.display='none';return;}
+    const idx=Math.floor((mx-pL)/slot);
+    if(idx<0||idx>=candles.length)return;
+    const c=candles[idx];
+    const kst=new Date(new Date(c.candle_date_time_utc+'Z').getTime()+9*3600*1000);
+    const tt=document.getElementById('chart-tooltip');
+    tt.style.display='block';
+    tt.innerHTML=`<span style="color:var(--muted)">${String(kst.getUTCHours()).padStart(2,'0')}:${String(kst.getUTCMinutes()).padStart(2,'0')} KST</span><br>시가:${fmtP(c.opening_price)}<br>고가:${fmtP(c.high_price)}<br>저가:${fmtP(c.low_price)}<br>종가:${fmtP(c.trade_price)}`;
+  };
+  canvas.onmouseleave=()=>{document.getElementById('chart-tooltip').style.display='none';};
+}
+
+document.getElementById('modal-close').addEventListener('click',()=>{
+  document.getElementById('modal-overlay').classList.remove('open');
+});
+document.getElementById('modal-overlay').addEventListener('click',e=>{
+  if(e.target===document.getElementById('modal-overlay'))document.getElementById('modal-close').click();
+});
+window.addEventListener('keydown',e=>{if(e.key==='Escape')document.getElementById('modal-close').click();});
+
+const root=document.documentElement,btn=document.getElementById('theme-btn');
+btn.addEventListener('click',()=>{
+  const cur=root.getAttribute('data-theme')||( window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
+  const next=cur==='dark'?'light':'dark';
+  root.setAttribute('data-theme',next);
+  btn.textContent=next==='dark'?'☀':'🌙';
+  renderDist();
+  if(curCandles.length&&curCoin)drawChart(curCoin,curCandles);
+  sendHourlyTheme();
+});
+
+function switchTab(tab){
+  ['listing','caution','delist','d2break','hourly'].forEach(t=>{
+    document.getElementById('pane-'+t).style.display=tab===t?'':'none';
+    document.getElementById('tab-'+t).classList.toggle('active',tab===t);
+  });
+  const titles={
+    listing: ['업비트 신규상장 새벽저점 분석','상장 → 펌프 → 덤프 → 새벽저점 → 오전9시 반등 패턴 통계 (2026년 KRW 마켓)'],
+    caution: ['업비트 투자유의 코인 낙폭 분석','유의 공지 전후 등락률 · 당일 최저 · 당일 마감 통계 (2022~2026년)'],
+    delist:  ['업비트 상폐코인 분석','상폐 직전 펌프 → 덤프 → 새벽저점 → 오전9시 반등 패턴 통계'],
+    d2break: ['업비트 상장 1~2일차 돌파 분석','D1 일봉 윗꼬리 형성 후 D2에서 D1 고점을 돌파한 코인 패턴 분석'],
+    hourly:  ['업비트 시간대별 통계','원화 전 종목 1시간봉·15분봉 — 몇 시에 오르고, 흔들리고, 바닥이 나오나 (매일 갱신)'],
+  };
+  document.getElementById('page-title').textContent=titles[tab][0];
+  document.getElementById('page-sub').textContent=titles[tab][1];
+  if(tab==='listing')renderDist();
+  if(tab==='d2break')renderD2Break();
+  if(tab==='hourly'){const f=document.getElementById('hourly-frame');if(!f.src)f.src=f.dataset.src;else sendHourlyTheme();}
+  try{localStorage.setItem('listingTab',tab);}catch(e){}
+}
+// 시간대별 통계 칸: 안쪽 페이지가 보내는 높이로 맞추고, 낮/밤 모드를 같이 바꿈
+function sendHourlyTheme(){
+  const f=document.getElementById('hourly-frame');if(!f||!f.contentWindow)return;
+  const t=document.documentElement.getAttribute('data-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
+  f.contentWindow.postMessage({hourStatsTheme:t},'*');
+}
+window.addEventListener('message',e=>{
+  const f=document.getElementById('hourly-frame');
+  if(f&&e.source===f.contentWindow&&e.data&&e.data.hourStatsHeight)f.style.height=e.data.hourStatsHeight+'px';
+});
+document.getElementById('hourly-frame').addEventListener('load',sendHourlyTheme);
+// ── 상장 1~2일차 D2 돌파 패턴 데이터 ──
+const D2BREAK_DATA=[
+  // d1_vol/d2_vol/d3_vol: 일 거래대금(억원), d1_wick: D1 윗꼬리%(고점/종가 기준), d2_vs_d1: D2고점/D1고점 변화%
+  // d2_break: D2에서 D1고점을 최초 돌파한 시각 (KST "HH:MM")
+  // intl_pre: 업비트 공지 직전 해외 가격(USDT), intl_listing: 업비트 첫 거래 시점 해외 가격(USDT)
+  // → 공지 후 업비트 상장까지 해외에서 얼마나 선반영됐는지 (해외 선반영률)
+  {ticker:"CHIP",  listing_date:"2026-04-21", d2_break:"14:30",
+   intl_pre:null,  intl_listing:0.01200, intl_exch:"Binance", intl_note:"Binance·Upbit 동시상장(D1 22:00KST)",
+   d1_open:85.3,   d1_high:105,    d1_close:91.1,  d1_vol:1946,
+   d2_open:91,     d2_high:180,    d2_close:168,   d2_vol:7671,
+   d3_open:167,    d3_high:209,    d3_close:155,   d3_vol:998},
+  {ticker:"SPX",   listing_date:"2026-06-16", d2_break:"11:30",
+   intl_pre:0.333, intl_listing:0.340,  intl_exch:"Bybit",   intl_note:"D1 해외 보합, D2 11:00 Bybit도 동시 폭등",
+   d1_open:579,    d1_high:614,    d1_close:585,   d1_vol:600,
+   d2_open:586,    d2_high:748,    d2_close:646,   d2_vol:885,
+   d3_open:646,    d3_high:665,    d3_close:572,   d3_vol:62},
+  {ticker:"CAP",   listing_date:"2026-08-06", d2_break:"21:15",
+   intl_pre:0.0270,intl_listing:0.02787,intl_exch:"Bybit",   intl_note:"상장 D1 10:00 Bybit 동시 펌핑",
+   d1_open:43.5,   d1_high:47.8,   d1_close:43.5,  d1_vol:415,
+   d2_open:43.5,   d2_high:54.2,   d2_close:50.5,  d2_vol:284,
+   d3_open:50.5,   d3_high:56.5,   d3_close:51.8,  d3_vol:137},
+  {ticker:"PROS",  listing_date:"2026-05-08", d2_break:"16:15",
+   intl_pre:null,  intl_listing:null,   intl_exch:null,      intl_note:"Binance·Bybit 미상장",
+   d1_open:811,    d1_high:1510,   d1_close:1282,  d1_vol:2098,
+   d2_open:1282,   d2_high:1690,   d2_close:1336,  d2_vol:3893,
+   d3_open:1339,   d3_high:1352,   d3_close:1181,  d3_vol:203},
+  {ticker:"SENT",  listing_date:"2026-01-29", d2_break:"09:30",
+   intl_pre:0.0252,intl_listing:0.02480,intl_exch:"Binance", intl_note:"상장시 해외 보합(-1.6%), 14:00 KST 해외 뒤늦게 펌핑",
+   d1_open:44.5,   d1_high:56.7,   d1_close:48.8,  d1_vol:2054,
+   d2_open:48.7,   d2_high:62.3,   d2_close:52.7,  d2_vol:2019,
+   d3_open:52.7,   d3_high:72.8,   d3_close:71.9,  d3_vol:1288},
+  {ticker:"PRL",   listing_date:"2026-04-27", d2_break:"17:30",
+   intl_pre:null,  intl_listing:null,   intl_exch:null,      intl_note:"Binance·Bybit 미상장",
+   d1_open:442,    d1_high:566,    d1_close:483,   d1_vol:2117,
+   d2_open:530,    d2_high:605,    d2_close:470,   d2_vol:581,
+   d3_open:471,    d3_high:471,    d3_close:419,   d3_vol:168},
+  {ticker:"POD",   listing_date:"2026-10-02", d2_break:"10:30",
+   intl_pre:null,  intl_listing:null,   intl_exch:null,      intl_note:"Binance·Bybit 미상장",
+   d1_open:523,    d1_high:1085,   d1_close:755,   d1_vol:1044,
+   d2_open:755,    d2_high:1131,   d2_close:1085,  d2_vol:1506,
+   d3_open:1086,   d3_high:1194,   d3_close:1142,  d3_vol:300},
+];
+
+let d2bSortCol='d2_vs_d1', d2bSortDir=-1;
+function d2bSort(col){
+  if(d2bSortCol===col)d2bSortDir*=-1; else{d2bSortCol=col;d2bSortDir=-1;}
+  renderD2Break();
+}
+
+function renderD2Break(){
+  const el=document.getElementById('d2break-section');
+  const n=D2BREAK_DATA.length;
+
+  // "HH:MM" → 분 변환 헬퍼
+  const hhmm2min=s=>{const[h,m]=s.split(':').map(Number);return h*60+m;};
+  const min2hhmm=m=>`${String(Math.floor(m/60)).padStart(2,'0')}:${String(m%60).padStart(2,'0')}`;
+
+  // 계산 필드 추가
+  const data=D2BREAK_DATA.map(d=>{
+    const d1Wick=((d.d1_high-d.d1_close)/d.d1_close*100);
+    const d1Pump=((d.d1_high/d.d1_open-1)*100);
+    const d1Close_vs_open=((d.d1_close/d.d1_open-1)*100);
+    const d2_vs_d1=((d.d2_high/d.d1_high-1)*100);
+    const d2VolRatio=d.d2_vol/d.d1_vol;
+    const breakMin=d.d2_break?hhmm2min(d.d2_break):null;
+    const intlPump=(d.intl_pre&&d.intl_listing)?((d.intl_listing-d.intl_pre)/d.intl_pre*100):null;
+    return {...d,d1Wick,d1Pump,d1Close_vs_open,d2_vs_d1,d2VolRatio,breakMin,intlPump};
+  });
+
+  const avg=(fn)=>data.reduce((s,d)=>s+fn(d),0)/n;
+
+  // 돌파 시각 통계
+  const breakData=data.filter(d=>d.breakMin!==null);
+  const avgBreakMin=breakData.length?breakData.reduce((s,d)=>s+d.breakMin,0)/breakData.length:null;
+  const minBreak=breakData.length?breakData.reduce((a,d)=>d.breakMin<a.breakMin?d:a):null;
+  const maxBreak=breakData.length?breakData.reduce((a,d)=>d.breakMin>a.breakMin?d:a):null;
+  // 오전(~12:00) / 오후(12:00~) 분류
+  const amCount=breakData.filter(d=>d.breakMin<720).length;
+  const pmCount=breakData.filter(d=>d.breakMin>=720).length;
+  const sorted=[...data].sort((a,b)=>{
+    const va=a[d2bSortCol]??0, vb=b[d2bSortCol]??0;
+    return(typeof va==='string'?va.localeCompare(vb):(va<vb?-1:va>vb?1:0))*d2bSortDir;
+  });
+
+  const th=(col,label,sub='')=>{
+    const act=d2bSortCol===col, arr=act?(d2bSortDir===1?'↑':'↓'):'';
+    return`<th class="r${act?' sort-active':''}" onclick="d2bSort('${col}')">${label}${arr?` <span style="color:var(--accent)">${arr}</span>`:''}${sub?`<br><span style="font-size:9px;font-weight:400;opacity:.7">${sub}</span>`:''}`;
+  };
+  const pct=(v,bold=false)=>{const c=v>=0?'up':'down',s=v>=0?'+':'';return`<td class="r${bold?' day-low-col':''}" style="color:var(--${c})">${s}${fmt(v,1)}%</td>`;};
+  const vol=(v)=>`<td class="r" style="color:var(--muted);font-size:12px">${v>=1000?(v/1000).toFixed(1)+'천':Math.round(v)}억</td>`;
+
+  // 패턴 요약 분석
+  const avgWick=avg(d=>d.d1Wick);
+  const avgD2vs=avg(d=>d.d2_vs_d1);
+  const avgVolR=avg(d=>d.d2VolRatio);
+  const avgD1pump=avg(d=>d.d1Pump);
+
+  el.innerHTML=`
+  <div class="section-title">🚀 상장 D1 윗꼬리 → D2 고점 돌파 패턴 분석
+    <span style="font-size:11px;font-weight:400;color:var(--muted);margin-left:6px">${n}건 · 열 클릭 정렬</span>
+  </div>
+
+  <div class="caution-kpis" style="grid-template-columns:repeat(5,1fr)">
+    <div class="kpi"><div class="kpi-label">평균 D1 고점 상승</div><div class="kpi-value c-up">+${fmt(avgD1pump,1)}%</div><div class="kpi-sub">시가 → D1고점</div></div>
+    <div class="kpi"><div class="kpi-label">평균 D1 윗꼬리</div><div class="kpi-value c-up">+${fmt(avgWick,1)}%</div><div class="kpi-sub">D1고점 → D1종가 괴리</div></div>
+    <div class="kpi"><div class="kpi-label">평균 D2 돌파폭</div><div class="kpi-value c-up">+${fmt(avgD2vs,1)}%</div><div class="kpi-sub">D1고점 대비 D2고점</div></div>
+    <div class="kpi"><div class="kpi-label">D2 거래대금 배수</div><div class="kpi-value" style="color:var(--accent)">${fmt(avgVolR,1)}x</div><div class="kpi-sub">D1 대비 D2 거래대금</div></div>
+    <div class="kpi" style="border-color:var(--gold)">
+      <div class="kpi-label">⏰ 평균 D1고점 돌파 시각</div>
+      <div class="kpi-value c-gold">${avgBreakMin!==null?min2hhmm(Math.round(avgBreakMin)):'-'} KST</div>
+      <div class="kpi-sub">
+        최조 ${minBreak?minBreak.d2_break+' ('+minBreak.ticker+')':'-'} ·
+        최후 ${maxBreak?maxBreak.d2_break+' ('+maxBreak.ticker+')':'-'}<br>
+        오전 ${amCount}건 · 오후 ${pmCount}건
+      </div>
+    </div>
+  </div>
+
+  <!-- 메인 테이블 -->
+  <div class="table-wrap"><table class="ctbl">
+    <thead><tr>
+      <th onclick="d2bSort('listing_date')" class="${d2bSortCol==='listing_date'?'sort-active':''}">상장일${d2bSortCol==='listing_date'?` <span style="color:var(--accent)">${d2bSortDir===1?'↑':'↓'}</span>`:''}</th>
+      <th onclick="d2bSort('ticker')" class="${d2bSortCol==='ticker'?'sort-active':''}">코인${d2bSortCol==='ticker'?` <span style="color:var(--accent)">${d2bSortDir===1?'↑':'↓'}</span>`:''}</th>
+      ${th('d1Pump','D1 고점상승','시가→D1고점')}
+      ${th('d1Wick','D1 윗꼬리','고점→종가')}
+      ${th('d1Close_vs_open','D1 종가','시가대비')}
+      ${th('d1_vol','D1 거래대금','')}
+      ${th('d2_vs_d1','D2 돌파폭','D1고점 대비')}
+      ${th('d2_high','D2 고점','')}
+      ${th('d2VolRatio','D2 거래대금','D1대비 배수')}
+      ${th('intlPump','해외 선반영','공지→상장 해외상승')}
+      ${th('breakMin','D1고점 돌파','D2 시각(KST)')}
+    </tr></thead>
+    <tbody>${sorted.map(d=>{
+      // 돌파 시각 배경색: 오전=파랑, 오후=주황, 야간(18시~)=보라
+      const bColor=d.breakMin===null?'var(--muted)':d.breakMin<720?'var(--down)':d.breakMin<1080?'var(--gold)':'#9c27b0';
+      const bLabel=d.d2_break||'-';
+      return`<tr>
+        <td style="color:var(--muted);font-size:11px">${d.listing_date.slice(5)}</td>
+        <td><span class="ticker chart-row-btn" onclick="showD2Chart('${d.ticker}','${d.listing_date}',${d.d1_high},${d.d1_low||0},${d.d1_close})" title="클릭 시 D1상장~D2 돌파 차트">${d.ticker} 📊</span></td>
+        ${pct(d.d1Pump)}
+        <td class="r" style="color:var(--up)">+${fmt(d.d1Wick,1)}%<br><span style="font-size:10px;color:var(--muted)">고${fmtP(d.d1_high)}→종${fmtP(d.d1_close)}</span></td>
+        ${pct(d.d1Close_vs_open)}
+        ${vol(d.d1_vol)}
+        ${pct(d.d2_vs_d1,true)}
+        <td class="price-cell" style="color:var(--up)">${fmtP(d.d2_high)}<br><span style="font-size:10px;color:var(--muted)">종${fmtP(d.d2_close)}</span></td>
+        <td class="r" style="color:var(--${d.d2VolRatio>=1?'up':'muted'})">${fmt(d.d2VolRatio,1)}x<br><span style="font-size:10px;color:var(--muted)">${Math.round(d.d2_vol)}억</span></td>
+        <td class="r">${(()=>{
+          if(!d.intl_pre && d.intl_listing && d.intl_note){
+            // 동시상장 등 intl_pre 없는 케이스
+            return `<span style="color:var(--muted);font-size:11px">선반영 없음</span><br><span style="font-size:10px;color:var(--muted)">${d.intl_exch??''} ${d.intl_note??''}</span>`;
+          }
+          if(d.intlPump!==null){
+            const color=d.intlPump>=0?'var(--up)':'var(--dn)';
+            const sign=d.intlPump>=0?'+':'';
+            return `<span style="font-weight:700;color:${color}">${sign}${fmt(d.intlPump,1)}%</span><br>
+              <span style="font-size:10px;color:var(--muted)">${d.intl_exch??'해외'} $${d.intl_pre}→$${d.intl_listing}</span><br>
+              <span style="font-size:10px;color:var(--muted)">${d.intl_note??''}</span>`;
+          }
+          if(d.intl_note){
+            return `<span style="color:var(--muted);font-size:11px">해외 미상장</span><br><span style="font-size:10px;color:var(--muted)">${d.intl_note}</span>`;
+          }
+          return `<span style="color:var(--muted);font-size:12px">— 미입력</span>`;
+        })()}</td>
+        <td class="r" style="font-weight:700;color:${bColor}">${bLabel}<br><span style="font-size:10px;font-weight:400;color:var(--muted)">${d.breakMin===null?'':d.breakMin<720?'오전':d.breakMin<1080?'오후':'야간'}</span></td>
+      </tr>`;}).join('')}
+    </tbody>
+  </table></div>
+
+  <!-- 패턴 분석 -->
+  <div style="margin-top:24px">
+    <div class="section-title" style="font-size:14px;margin-bottom:12px">📊 종합 패턴 특징 분석</div>
+
+    <!-- Row 1: D1/D2 일봉 특징 -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
+      <div style="background:var(--sf2);border:1px solid var(--border);border-radius:10px;padding:16px">
+        <div style="font-size:12px;font-weight:700;color:var(--accent);margin-bottom:10px">📈 D1 (상장 당일) 특징</div>
+        <ul style="font-size:12px;color:var(--text);line-height:2;padding-left:16px;margin:0">
+          <li><b>평균 고점 상승폭 +${fmt(avgD1pump,1)}%</b> — 상장 당일 강한 초기 펌프 존재</li>
+          <li><b>평균 윗꼬리 +${fmt(avgWick,1)}%</b> — 고점에서 매물 출회, 종가 기준 밀림</li>
+          <li>D1 종가가 <b>시가 대비 평균 ${fmt(avg(d=>d.d1Close_vs_open),1)}%</b> — 일부는 시가 위에서 마감</li>
+          <li><b>CHIP·PROS·SENT·PRL</b>은 D1 거래대금 2,000억+ 대형 종목</li>
+          <li><b>POD</b>는 D1 윗꼬리 63%로 역대 최대 — 상장 당일 2배 이상 급등 후 반납</li>
+        </ul>
+      </div>
+      <div style="background:var(--sf2);border:1px solid var(--border);border-radius:10px;padding:16px">
+        <div style="font-size:12px;font-weight:700;color:var(--up);margin-bottom:10px">🚀 D2 (다음날) 돌파 특징</div>
+        <ul style="font-size:12px;color:var(--text);line-height:2;padding-left:16px;margin:0">
+          <li><b>D1 고점 대비 평균 +${fmt(avgD2vs,1)}% 추가 돌파</b></li>
+          <li><b>거래대금이 D1 대비 평균 ${fmt(avgVolR,1)}배</b> — CHIP 3.9x, PROS 1.9x 급증</li>
+          <li>거래대금 증가폭 클수록 돌파폭도 큰 경향 <span style="color:var(--muted)">(CHIP: 3.9x→+71%)</span></li>
+          <li>D2 시가가 D1 종가 근처에서 출발 — <b>갭없이 연속성 유지</b></li>
+          <li>D2 종가가 D1 고점 위에서 마감하면 D3도 강세 경향</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Row 2: 멀티 타임프레임 -->
+    <div style="background:var(--accent-l);border:1px solid var(--accent);border-radius:10px;padding:16px;margin-bottom:14px">
+      <div style="font-size:13px;font-weight:700;color:var(--accent);margin-bottom:14px">🔍 멀티 타임프레임 매수 근거 (15분봉 · 1시간봉 · 4시간봉)</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
+
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px">
+          <div style="font-size:11px;font-weight:700;color:var(--accent);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px">🕒 4시간봉 — 큰 그림 확인</div>
+          <ul style="font-size:11.5px;color:var(--text);line-height:1.9;padding-left:14px;margin:0">
+            <li>D2 <b>첫 4시간봉(09:00~13:00) 저점</b>이 D1 저점 대비 <b>+0~10% 구간</b>에서 형성</li>
+            <li>첫 4시간봉 <b>종가 > D1 종가</b> = 세력 재진입 완료 신호</li>
+            <li>CHIP·SPX·PROS·PRL·POD <b>5종목 모두</b> 이 조건 충족 후 돌파</li>
+            <li>CAP은 21:00 4시간봉에서 거래대금 108억 급증하며 야간에 돌파</li>
+          </ul>
+        </div>
+
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px">
+          <div style="font-size:11px;font-weight:700;color:var(--up);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px">🕐 1시간봉 — 거래대금 급증 포착</div>
+          <ul style="font-size:11.5px;color:var(--text);line-height:1.9;padding-left:14px;margin:0">
+            <li>오전 저조한 거래대금 → 특정 시간봉에서 <b>전 시간 대비 1.5배+ 급증</b> = 진입 신호</li>
+            <li>CHIP <b>14:00</b> 322억 급증 → 즉시 돌파 / PROS <b>15:00</b> 380억 급증 → 돌파</li>
+            <li>SPX <b>11:00</b> 92억 급증(전 시간 11억의 8배) → 같은 시간봉에 돌파 완료</li>
+            <li>PRL 10:00 스파이크(343억)는 <b>테스트 펌프</b>, 17:00 재급증이 진짜 신호</li>
+          </ul>
+        </div>
+
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px">
+          <div style="font-size:11px;font-weight:700;color:var(--gold);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px">🕔 15분봉 — 정밀 진입 타이밍</div>
+          <ul style="font-size:11.5px;color:var(--text);line-height:1.9;padding-left:14px;margin:0">
+            <li>7종목 중 <b>4종목(CHIP·PROS·PRL·CAP)</b> D2 저점이 D1 저점을 <b>원 단위까지 정확히 리터치</b></li>
+            <li>리터치 후 <b>연속 2봉 이상 저점이 높아지면</b> 진입 — 15분봉 저점 고점 모두 상승 확인</li>
+            <li>CHIP·PROS: 리터치 후 <b>2~4시간 박스 횡보</b> → 박스 상단 돌파 시 추가 진입</li>
+            <li>SPX: 2시간 동안 <b>3.4% 초좁은 박스</b>(584~604) 형성 후 11:30 폭발</li>
+            <li>POD·SENT: D2 시가 자체가 D1 고점 근처 <b>갭업 출발</b> → 09:15 첫 봉 저점이 지지선</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Row 3: 체크리스트 + 주의사항 -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+      <div style="background:var(--sf2);border:1px solid var(--border);border-radius:10px;padding:16px">
+        <div style="font-size:12px;font-weight:700;color:var(--accent);margin-bottom:10px">✅ 멀티타임프레임 매수 체크리스트</div>
+        <div style="font-size:11.5px;color:var(--text);line-height:2">
+          <div style="margin-bottom:4px"><span style="color:var(--muted);font-size:11px">[4시간봉]</span></div>
+          <div>□ D2 첫 4시간봉 저점이 D1 저점 대비 <b>+10% 이내</b></div>
+          <div>□ 첫 4시간봉 <b>종가 > D1 종가</b> 마감 확인</div>
+          <div style="margin-top:6px;margin-bottom:4px"><span style="color:var(--muted);font-size:11px">[1시간봉]</span></div>
+          <div>□ 전 시간 대비 거래대금 <b>1.5배 이상 급증</b>하는 봉 포착</div>
+          <div>□ 해당 봉에서 이전 저점보다 <b>높은 저점</b> 형성 확인</div>
+          <div style="margin-top:6px;margin-bottom:4px"><span style="color:var(--muted);font-size:11px">[15분봉]</span></div>
+          <div>□ D1 저점 <b>±5% 구간</b>에서 저점 형성 (하단 지지 확인)</div>
+          <div>□ 15분봉 <b>연속 2봉 이상 저점 상승</b> (저점·고점 모두 높아짐)</div>
+          <div>□ 이전 봉 대비 거래대금 <b>2배 이상</b>인 캔들 출현 후 진입</div>
+          <div style="margin-top:8px;padding:6px 10px;background:var(--up);color:#fff;border-radius:6px;font-weight:700;font-size:11.5px">
+            손절: 15분봉 기준 D1 저점 하회 시 즉시
+          </div>
+        </div>
+      </div>
+
+      <div style="background:var(--sf2);border:1px solid var(--border);border-radius:10px;padding:16px">
+        <div style="font-size:12px;font-weight:700;color:var(--down);margin-bottom:10px">⚠️ 매매 시 주의사항</div>
+        <ul style="font-size:12px;color:var(--text);line-height:2;padding-left:16px;margin:0">
+          <li>D2 돌파 후 <b>D3부터 거래대금 급감하며 조정</b> (CHIP·PROS·PRL)</li>
+          <li>D2 고점 추격 매수는 D3 하락 리스크 — <b>오전 눌림 구간 진입이 유리</b></li>
+          <li>PRL처럼 <b>10:00 테스트 펌프(1시간봉 스파이크)</b> 후 11:00 되밀림 → 이 구간이 2차 진입 기회</li>
+          <li>POD·SENT는 <b>갭업 출발 패턴</b> — 09:00 시가에서 즉시 진입하거나 포기</li>
+          <li>예외: SENT는 D3(+28%)까지 지속 — <b>섹터 모멘텀</b>과 함께 분석 필요</li>
+        </ul>
+        <div style="margin-top:10px;padding:8px 10px;background:var(--sf2);border:1px solid var(--border);border-radius:6px;font-size:11.5px;line-height:1.8">
+          <b style="color:var(--accent)">핵심 요약:</b> D1 저점을 15분봉이 터치하고 올라오면서,<br>
+          1시간봉 거래대금이 전 시간 대비 <b>1.5배 이상</b> 늘어나는<br>
+          첫 시간봉 = <b style="color:var(--up)">최적 매수 진입 신호</b>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div style="font-size:10px;color:var(--muted);margin-top:12px;line-height:1.8">
+    ※ D1=상장 당일 일봉 · D2=다음 거래일 · D3=그 다음 거래일 (업비트 09:00 KST 기준)<br>
+    ※ 윗꼬리%= (D1고점-D1종가)/D1종가×100 · 거래대금=일 누적 체결금액(억원)<br>
+    ※ 멀티타임프레임 분석: 15분봉·1시간봉·4시간봉 실제 데이터 기반 (7종목 전수 분석)
+  </div>`;
+}
+
+// ── 상폐 코인 데이터 ──
+// 신규상장 대시보드와 동일한 컬럼 구조
+// ── 상폐확정 공지 코인 데이터 ──
+// pre_chg   : 공지 1시간 전 전일비 (%)
+// post1h_chg: 공지 1시간 후 전일비 (%)
+// day_low   : 당일 최저 전일비 (%)
+// rebound_pre9: 저점→다음날 9AM 반등폭 (%)
+// rebound_930 : 9AM→9:30AM 변화 (%)
+const DELIST_DATA=[
+  // pre_chg/price: 공지1h전 전일비·가격, post30s_chg/price: 공지30초후 전일비·가격
+  // post1h_chg/price: 공지1h후 전일비·가격, day_low/price: 당일최저 전일비·가격
+  // rebound_pre9/price: 저점→9시前최고 반등폭·가격, rebound_930: 9AM→9:30 변화
+  {ticker:"RVN", notice_date:"2026-09-10", notice_time:"18:30",
+   pre_chg:0.8,   pre_price:4.03,
+   post30s_chg:-7.8,  post30s_price:3.69,
+   post1h_chg:-24.8,  post1h_price:3.01,
+   day_low:-27.8, day_low_price:2.89,
+   rebound_pre9:13.1, rebound_pre9_price:3.27, rebound_930:0.0},
+  {ticker:"ICX", notice_date:"2026-09-18", notice_time:"00:07",
+   pre_chg:5.7,   pre_price:18.40,
+   post30s_chg:1.1,   post30s_price:17.60,
+   post1h_chg:1.7,    post1h_price:17.70,
+   day_low:-0.6,  day_low_price:17.30,
+   rebound_pre9:4.6,  rebound_pre9_price:18.10, rebound_930:1.7},
+];
+
+let dSortCol='notice_date', dSortDir=1;
+function renderDelistTable(){
+  const el=document.getElementById('delist-section');
+  if(DELIST_DATA.length===0){
+    el.innerHTML=`
+      <div class="section-title">💀 상폐확정 공지 코인 낙폭 분석</div>
+      <div style="padding:60px;text-align:center;color:var(--muted);font-size:14px;line-height:2">
+        아직 데이터가 없습니다.<br>
+        <span style="font-size:12px;opacity:.7">상폐공지 받은 코인명과 공지 날짜를 알려주시면<br>API로 자동 수집해서 채워드립니다.</span>
+      </div>`;
+    return;
+  }
+  const n=DELIST_DATA.length;
+  const avg=(key)=>DELIST_DATA.reduce((s,d)=>s+(d[key]||0),0)/n;
+  const sorted=[...DELIST_DATA].sort((a,b)=>{
+    let va=a[dSortCol],vb=b[dSortCol];
+    if(typeof va==='string'){va=va.toLowerCase();vb=vb.toLowerCase();}
+    return(va<vb?-1:va>vb?1:0)*dSortDir;
+  });
+  const pTd=(v,bold=false)=>{
+    const cls=v>=0?'pos':'neg', s=v>=0?'+':'';
+    return`<td class="r ${bold?'day-low-col':''}" style="color:var(--${v>=0?'up':'down'})">${s}${fmt(v,1)}%</td>`;
+  };
+  const th=(col,label,sub='')=>{
+    const active=dSortCol===col, arr=active?(dSortDir===1?'↑':'↓'):'';
+    return`<th class="${active?'sort-active r':'r'}" onclick="dSort('${col}')">${label}${arr?` <span style="color:var(--accent)">${arr}</span>`:''}${sub?`<br><span style="font-size:9px;font-weight:400;opacity:.7">${sub}</span>`:''}`;
+  };
+  el.innerHTML=`
+    <div class="section-title">💀 상폐확정 공지 코인 낙폭 분석
+      <span style="font-size:11px;font-weight:400;color:var(--muted);margin-left:6px">원화 시세 보존 ${n}건 · 열 클릭 정렬</span>
+    </div>
+    <div class="caution-kpis">
+      <div class="kpi"><div class="kpi-label">분석 건수</div><div class="kpi-value">${n}건</div><div class="kpi-sub">상폐공지 사례</div></div>
+      <div class="kpi"><div class="kpi-label">공지 30초후 평균</div><div class="kpi-value" style="color:var(--${avg('post30s_chg')>=0?'up':'down'})">${avg('post30s_chg')>=0?'+':''}${fmt(avg('post30s_chg'),1)}%</div><div class="kpi-sub">전일비 기준</div></div>
+      <div class="kpi"><div class="kpi-label">공지후 1h 평균</div><div class="kpi-value" style="color:var(--${avg('post1h_chg')>=0?'up':'down'})">${avg('post1h_chg')>=0?'+':''}${fmt(avg('post1h_chg'),1)}%</div><div class="kpi-sub">전일비 기준</div></div>
+      <div class="kpi"><div class="kpi-label">당일 최저 평균</div><div class="kpi-value c-down">${fmt(avg('day_low'),1)}%</div><div class="kpi-sub">전일비 기준</div></div>
+      <div class="kpi"><div class="kpi-label">9시前 반등 평균</div><div class="kpi-value c-up">+${fmt(avg('rebound_pre9'),1)}%</div><div class="kpi-sub">저점→다음날 9AM</div></div>
+      <div class="kpi"><div class="kpi-label">9시~9:30 평균</div><div class="kpi-value" style="color:var(--${avg('rebound_930')>=0?'up':'down'})">${avg('rebound_930')>=0?'+':''}${fmt(avg('rebound_930'),1)}%</div><div class="kpi-sub">9AM→9:30AM</div></div>
+    </div>
+    <div class="table-wrap"><table class="ctbl">
+      <thead><tr>
+        <th onclick="dSort('notice_date')" class="${dSortCol==='notice_date'?'sort-active':''}">공지일${dSortCol==='notice_date'?` <span style="color:var(--accent)">${dSortDir===1?'↑':'↓'}</span>`:''}</th>
+        <th onclick="dSort('ticker')" class="${dSortCol==='ticker'?'sort-active':''}">코인${dSortCol==='ticker'?` <span style="color:var(--accent)">${dSortDir===1?'↑':'↓'}</span>`:''}</th>
+        ${th('pre_chg','공지 1시간 전','전일비')}
+        ${th('post30s_chg','공지 30초 후','전일비')}
+        ${th('post1h_chg','공지 1시간 후','전일비')}
+        ${th('day_low','당일 최저','전일비')}
+        ${th('rebound_pre9','9시前 최대반등','저점→9시前최고')}
+        ${th('rebound_930','9시~9:30 변화','9AM 기준')}
+      </tr></thead>
+      <tbody>${sorted.map(d=>{
+        const priceTd=(chg,price)=>{
+          const col=chg>=0?'up':'down', s=chg>=0?'+':'';
+          return`<td class="r"><span style="color:var(--${col})">${s}${fmt(chg,1)}%</span><br><span style="font-size:10px;color:var(--muted)">${fmtP(price)}</span></td>`;
+        };
+        return`<tr>
+        <td style="color:var(--muted);font-size:11px">${d.notice_date}<br><span style="font-size:10px;opacity:.7">${d.notice_time||''}</span></td>
+        <td><span class="ticker">${d.ticker}</span></td>
+        ${priceTd(d.pre_chg, d.pre_price)}
+        ${priceTd(d.post30s_chg, d.post30s_price)}
+        ${priceTd(d.post1h_chg, d.post1h_price)}
+        <td class="r day-low-col">
+          <span style="color:var(--${d.day_low>=0?'up':'down'})">${d.day_low>=0?'+':''}${fmt(d.day_low,1)}%</span>
+          <br><span style="font-size:10px;color:var(--muted)">${fmtP(d.day_low_price)}</span>
+        </td>
+        <td class="r">
+          <span style="color:var(--${d.rebound_pre9>=0?'up':'down'})">${d.rebound_pre9>=0?'+':''}${fmt(d.rebound_pre9,1)}%</span>
+          <br><span style="font-size:10px;color:var(--muted)">${fmtP(d.rebound_pre9_price)}</span>
+        </td>
+        <td class="r" style="color:var(--${d.rebound_930>=0?'up':'down'})">${d.rebound_930>=0?'+':''}${fmt(d.rebound_930,1)}%</td>
+      </tr>`;}).join('')}</tbody>
+    </table></div>
+    <div style="font-size:10px;color:var(--muted);margin-top:10px;line-height:1.7">
+      ※ 공지 전/후 1시간 기준은 상폐확정 공지 시각 기준 · 전일비는 전일 종가(09:00 KST) 기준<br>
+      ※ 이미 상폐 완료된 코인은 업비트 차트 삭제로 분석 불가
+    </div>`;
+}
+function dSort(col){
+  if(dSortCol===col)dSortDir*=-1;else{dSortCol=col;dSortDir=col==='notice_date'||col==='ticker'?1:-1;}
+  renderDelistTable();
+}
+
+renderStats();renderCautionTable();renderDelistTable();renderDist();renderTable();
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',renderDist);
+
+// ── D2 차트 모달 ──
+let _lwChart=null;
+let _curCoin=null; // {ticker, listingDate, d1High, d1Low, d1Close}
+let _curTab='full';
+
+function closeChart(){
+  document.getElementById('chartModal').classList.remove('open');
+  if(_lwChart){_lwChart.remove();_lwChart=null;}
+}
+
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeChart();});
+
+function switchChartTab(tab){
+  _curTab=tab;
+  // 탭 버튼 스타일
+  ['full','preopen'].forEach(t=>{
+    const btn=document.getElementById('ctab-'+t);
+    const active=t===tab;
+    btn.style.background=active?'var(--accent)':'var(--sf2)';
+    btn.style.color=active?'#fff':'var(--muted)';
+    btn.style.borderColor=active?'var(--accent)':'var(--border)';
+  });
+  document.getElementById('chart-legend-full').style.display=tab==='full'?'':'none';
+  document.getElementById('chart-legend-preopen').style.display=tab==='preopen'?'':'none';
+  if(!_curCoin)return;
+  if(tab==='full') showD2Chart(_curCoin.ticker,_curCoin.listingDate,_curCoin.d1High,_curCoin.d1Low,_curCoin.d1Close,true);
+  else             showPreopenChart();
+}
+
+async function showPreopenChart(){
+  const {ticker,listingDate,d1High,d1Low,d1Close}=_curCoin;
+  const titleEl=document.getElementById('chartModalTitle');
+  const statusEl=document.getElementById('chartStatus');
+  const container=document.getElementById('chart-container');
+
+  if(_lwChart){_lwChart.remove();_lwChart=null;}
+  container.innerHTML='';
+  statusEl.textContent='1분봉 데이터 불러오는 중…';
+
+  try{
+    const [y,mo,d]=listingDate.split('-').map(Number);
+    const d2=new Date(Date.UTC(y,mo-1,d+1,0,0,0)); // D2 00:00 UTC = D2 09:00 KST
+    // D2 08:30 KST = D1 23:30 UTC / D2 09:30 KST = D2 00:30 UTC
+    const toUTC=new Date(d2.getTime()+31*60*1000); // D2 00:31 UTC
+    const toStr=toUTC.toISOString().replace('T',' ').slice(0,19);
+    const url=`https://api.upbit.com/v1/candles/minutes/1?market=KRW-${ticker}&to=${encodeURIComponent(toStr)}&count=62`;
+    const res=await fetch(url);
+    if(!res.ok)throw new Error(`HTTP ${res.status}`);
+    const raw=await res.json();
+    if(!Array.isArray(raw)||raw.length===0)throw new Error('데이터 없음');
+
+    const from=d2.getTime()-30*60*1000; // D1 23:30 UTC = D2 08:30 KST
+    const to  =d2.getTime()+30*60*1000; // D2 00:30 UTC = D2 09:30 KST
+    const d2Open=d2.getTime();           // D2 00:00 UTC = D2 09:00 KST
+
+    const candles=raw
+      .filter(c=>{const t=new Date(c.candle_date_time_utc+'Z').getTime(); return t>=from&&t<=to;})
+      .reverse()
+      .map(c=>{
+        const t=new Date(c.candle_date_time_utc+'Z').getTime();
+        return{
+          time: Math.floor(t/1000)+9*3600,
+          open: c.opening_price, high: c.high_price, low: c.low_price, close: c.trade_price,
+          _utc: t,
+        };
+      });
+
+    if(candles.length===0)throw new Error('해당 시간 데이터 없음 (장전 거래 없을 수 있음)');
+
+    // 등락률 데이터 (전일 D1 종가 대비 %)
+    const pctData=candles.map(c=>({
+      time: c.time,
+      value: (c.close-d1Close)/d1Close*100,
+    }));
+
+    // 09:00 이후 구간 통계
+    const afterOpen=candles.filter(c=>c._utc>=d2Open);
+    const pctOpen =afterOpen.length?(afterOpen[0].open-d1Close)/d1Close*100:null;
+    const pctHigh =afterOpen.length?Math.max(...afterOpen.map(c=>(c.high-d1Close)/d1Close*100)):null;
+    const pctLow  =afterOpen.length?Math.min(...afterOpen.map(c=>(c.low-d1Close)/d1Close*100)):null;
+    const pctClose=afterOpen.length?(afterOpen[afterOpen.length-1].close-d1Close)/d1Close*100:null;
+
+    // 다크모드
+    const dark=document.documentElement.dataset.theme==='dark'||
+      (!document.documentElement.dataset.theme&&window.matchMedia('(prefers-color-scheme:dark)').matches);
+
+    if(!window.LightweightCharts){
+      await new Promise((res,rej)=>{
+        const s=document.createElement('script');
+        s.src='https://unpkg.com/lightweight-charts@4.2.0/dist/lightweight-charts.standalone.production.js';
+        s.onload=res; s.onerror=rej;
+        document.head.appendChild(s);
+      });
+    }
+
+    const chart=window.LightweightCharts.createChart(container,{
+      width:container.clientWidth, height:460,
+      layout:{background:{type:'solid',color:dark?'#0d1525':'#ffffff'},textColor:dark?'#dde6f5':'#0d1421'},
+      grid:{vertLines:{color:dark?'#1e2d47':'#e4eaf4'},horzLines:{color:dark?'#1e2d47':'#e4eaf4'}},
+      crosshair:{mode:1},
+      rightPriceScale:{borderColor:dark?'#1e2d47':'#cdd6e8'},
+      timeScale:{
+        borderColor:dark?'#1e2d47':'#cdd6e8',timeVisible:true,secondsVisible:false,
+        tickMarkFormatter:(t)=>{
+          const dt=new Date(t*1000);
+          return`${dt.getUTCHours().toString().padStart(2,'0')}:${dt.getUTCMinutes().toString().padStart(2,'0')}`;
+        }
+      },
+    });
+    _lwChart=chart;
+
+    const cs=chart.addCandlestickSeries({
+      upColor:'#26a69a',downColor:'#ef5350',
+      borderUpColor:'#26a69a',borderDownColor:'#ef5350',
+      wickUpColor:'#26a69a',wickDownColor:'#ef5350',
+      priceFormat:{type:'custom',formatter:v=>v.toLocaleString()},
+    });
+    cs.setData(candles.map(({_utc,...c})=>c));
+
+    // D1고점 / D1종가(0%) 라인
+    cs.createPriceLine({price:d1High, color:'#ffb830',lineWidth:2,lineStyle:0,title:`D1고점 ${d1High.toLocaleString()}`});
+    cs.createPriceLine({price:d1Close,color:'#aaa',   lineWidth:1,lineStyle:2,title:'0% (D1종가)'});
+
+    // 전일대비 % 기준선 그리드 (-15%~+15%, 5%단위)
+    const pctLevels=[-15,-10,-5,5,10,15];
+    pctLevels.forEach(pct=>{
+      const price=d1Close*(1+pct/100);
+      const pos=pct>0;
+      cs.createPriceLine({
+        price,
+        color: pos?'rgba(38,166,154,0.5)':'rgba(239,83,80,0.5)',
+        lineWidth:1,
+        lineStyle:3, // dotted
+        title:`${pos?'+':''}${pct}%`,
+        axisLabelVisible:true,
+      });
+    });
+
+    // 09:00 KST 마커 (장 시작 기준점)
+    if(afterOpen.length){
+      cs.setMarkers([{
+        time: Math.floor(d2Open/1000)+9*3600,
+        position:'aboveBar', color:'#ffb830', shape:'arrowDown', text:'09:00', size:1,
+      }]);
+    }
+
+    chart.timeScale().fitContent();
+    const ro=new ResizeObserver(()=>chart.applyOptions({width:container.clientWidth}));
+    ro.observe(container);
+
+    // 하단 통계 뱃지
+    const sfmt=(v,c)=>v===null?'—':`<span style="color:${c??( v>=0?'#26a69a':'#ef5350')};font-weight:700">${v>=0?'+':''}${v.toFixed(2)}%</span>`;
+    titleEl.textContent=`${ticker} — D2 08:30~09:30 KST 장전·장시작 (1분봉) · D1종가 ${d1Close.toLocaleString()}원 기준`;
+    statusEl.innerHTML=`
+      <span style="color:var(--muted);font-size:11px">전일(D1)종가 대비 등락률 — 09:00 이후 ▶</span>
+      <span style="margin-left:12px">시가 ${sfmt(pctOpen)}</span>
+      <span style="margin-left:10px">최고 ${sfmt(pctHigh,'#26a69a')}</span>
+      <span style="margin-left:10px">최저 ${sfmt(pctLow,'#ef5350')}</span>
+      <span style="margin-left:10px">09:30 종가 ${sfmt(pctClose)}</span>
+      <span style="margin-left:10px;color:var(--muted);font-size:11px">| 선은 5%단위 기준선</span>
+    `;
+  }catch(e){
+    statusEl.textContent=`❌ ${e.message}`;
+    console.error(e);
+  }
+}
+
+async function showD2Chart(ticker, listingDate, d1High, d1Low, d1Close, skipTabReset=false){
+  // 현재 코인 상태 저장
+  _curCoin={ticker,listingDate,d1High,d1Low,d1Close};
+
+  const modal=document.getElementById('chartModal');
+  const titleEl=document.getElementById('chartModalTitle');
+  const statusEl=document.getElementById('chartStatus');
+  const container=document.getElementById('chart-container');
+
+  // 탭 초기화 (새 코인 클릭 시 full 탭으로)
+  if(!skipTabReset){
+    _curTab='full';
+    ['full','preopen'].forEach(t=>{
+      const btn=document.getElementById('ctab-'+t);
+      const active=t==='full';
+      btn.style.background=active?'var(--accent)':'var(--sf2)';
+      btn.style.color=active?'#fff':'var(--muted)';
+      btn.style.borderColor=active?'var(--accent)':'var(--border)';
+    });
+    document.getElementById('chart-legend-full').style.display='';
+    document.getElementById('chart-legend-preopen').style.display='none';
+  }
+
+  // 이전 차트 정리
+  if(_lwChart){_lwChart.remove();_lwChart=null;}
+  container.innerHTML='';
+  titleEl.textContent=`${ticker} — 데이터 로딩 중…`;
+  statusEl.textContent='데이터 불러오는 중…';
+  modal.classList.add('open');
+
+  try{
+    // D1 날짜 파싱 (listing_date = "YYYY-MM-DD", 업비트 하루는 09:00 KST = 00:00 UTC)
+    const [y,mo,d]=listingDate.split('-').map(Number);
+    const d1=new Date(Date.UTC(y,mo-1,d,0,0,0)); // D1 00:00 UTC (= D1 09:00 KST)
+    const d2=new Date(d1.getTime()+24*3600*1000);
+    const d3=new Date(d2.getTime()+24*3600*1000);
+    // D2 전체 + 여유 → D3 00:00 UTC (= D3 09:00 KST) 기준으로 끝까지 가져옴
+    const toUTC=new Date(d3.getTime()+15*60*1000); // D3 00:15 UTC
+    const toStr=toUTC.toISOString().replace('T',' ').slice(0,19);
+
+    // 300캔들 * 15분 = 75시간 → D1 상장시각부터 D2 전체 커버
+    const url=`https://api.upbit.com/v1/candles/minutes/15?market=KRW-${ticker}&to=${encodeURIComponent(toStr)}&count=300`;
+    const res=await fetch(url);
+    if(!res.ok)throw new Error(`HTTP ${res.status}`);
+    const raw=await res.json();
+    if(!Array.isArray(raw)||raw.length===0)throw new Error('데이터 없음');
+
+    // D3 00:00 UTC 이전 전체 데이터 (신규 상장이므로 D1 이전 캔들 없음)
+    const d3Start=d3.getTime();
+    const allCandles=raw
+      .filter(c=>new Date(c.candle_date_time_utc+'Z').getTime()<d3Start)
+      .reverse()
+      .map(c=>{
+        const t=new Date(c.candle_date_time_utc+'Z').getTime();
+        return{
+          time: Math.floor(t/1000)+9*3600,
+          open:  c.opening_price,
+          high:  c.high_price,
+          low:   c.low_price,
+          close: c.trade_price,
+          _utc:  t,
+        };
+      });
+
+    if(allCandles.length===0)throw new Error('해당 구간 데이터 없음');
+
+    // D2 시작 = D2 00:00 UTC (= D2 09:00 KST)
+    const d2StartUtc=d2.getTime();
+
+    // D2 구간에서 D1 고점을 최초로 돌파한 캔들 찾기 (high > d1High)
+    let breakIdx=-1;
+    for(let i=0;i<allCandles.length;i++){
+      if(allCandles[i]._utc>=d2StartUtc && allCandles[i].high>d1High){
+        breakIdx=i;
+        break;
+      }
+    }
+
+    // 차트에 표시할 끝 인덱스: 돌파 캔들 + 3개 여유 (돌파 이후 흐름도 약간 보여줌)
+    const endIdx=breakIdx>=0 ? Math.min(breakIdx+3, allCandles.length-1) : allCandles.length-1;
+    const candles=allCandles.slice(0, endIdx+1).map(({_utc,...c})=>c);
+
+    // 돌파 시각 계산
+    let breakTimeStr='돌파 미확인';
+    if(breakIdx>=0){
+      const bUtc=allCandles[breakIdx]._utc;
+      const bKst=new Date(bUtc+9*3600*1000);
+      const bh=bKst.getUTCHours().toString().padStart(2,'0');
+      const bm=bKst.getUTCMinutes().toString().padStart(2,'0');
+      const isD2=bUtc>=d2StartUtc && bUtc<d3.getTime();
+      breakTimeStr=`D2 ${bh}:${bm} KST`;
+    }
+
+    // 첫 캔들 시각 (상장 시각)
+    const firstKst=new Date(allCandles[0]._utc+9*3600*1000);
+    const fh=firstKst.getUTCHours().toString().padStart(2,'0');
+    const fm=firstKst.getUTCMinutes().toString().padStart(2,'0');
+    const d1dateStr=listingDate.slice(5);
+
+    // 다크모드 감지
+    const dark=document.documentElement.dataset.theme==='dark'||
+      (!document.documentElement.dataset.theme&&window.matchMedia('(prefers-color-scheme:dark)').matches);
+
+    // lightweight-charts 로드 (없으면 CDN)
+    if(!window.LightweightCharts){
+      await new Promise((res,rej)=>{
+        const s=document.createElement('script');
+        s.src='https://unpkg.com/lightweight-charts@4.2.0/dist/lightweight-charts.standalone.production.js';
+        s.onload=res; s.onerror=rej;
+        document.head.appendChild(s);
+      });
+    }
+
+    const chart=window.LightweightCharts.createChart(container,{
+      width: container.clientWidth,
+      height: 460,
+      layout:{
+        background:{type:'solid',color: dark?'#0d1525':'#ffffff'},
+        textColor: dark?'#dde6f5':'#0d1421',
+      },
+      grid:{
+        vertLines:{color: dark?'#1e2d47':'#e4eaf4'},
+        horzLines:{color: dark?'#1e2d47':'#e4eaf4'},
+      },
+      crosshair:{mode:1},
+      rightPriceScale:{borderColor: dark?'#1e2d47':'#cdd6e8'},
+      timeScale:{
+        borderColor: dark?'#1e2d47':'#cdd6e8',
+        timeVisible:true,
+        secondsVisible:false,
+        tickMarkFormatter:(t)=>{
+          const dt=new Date(t*1000);
+          const h=dt.getUTCHours().toString().padStart(2,'0');
+          const m=dt.getUTCMinutes().toString().padStart(2,'0');
+          return`${h}:${m}`;
+        }
+      },
+    });
+    _lwChart=chart;
+
+    const candleSeries=chart.addCandlestickSeries({
+      upColor:'#26a69a', downColor:'#ef5350',
+      borderUpColor:'#26a69a', borderDownColor:'#ef5350',
+      wickUpColor:'#26a69a', wickDownColor:'#ef5350',
+    });
+    candleSeries.setData(candles);
+
+    // D1 고점 / 저점 / 종가 라인
+    const lines=[
+      {price:d1High, color:'#ffb830', lineWidth:2, lineStyle:0, title:`D1고점 ${d1High.toLocaleString()}`},
+      {price:d1Low,  color:'#2979ff', lineWidth:1, lineStyle:1, title:`D1저점 ${d1Low.toLocaleString()}`},
+      {price:d1Close,color:'#888',    lineWidth:1, lineStyle:2, title:`D1종가 ${d1Close.toLocaleString()}`},
+    ];
+    lines.forEach(l=>candleSeries.createPriceLine(l));
+
+    chart.timeScale().fitContent();
+    document.getElementById('chartD1Line').style.display='';
+
+    titleEl.textContent=`${ticker} — D1(${d1dateStr}) ${fh}:${fm} 상장 → ${breakTimeStr} D1고점 돌파`;
+    statusEl.textContent=`${candles.length}개 캔들 · D1 상장시각 ~ ${breakTimeStr} 직후`;
+
+    // 리사이즈 대응
+    const ro=new ResizeObserver(()=>chart.applyOptions({width:container.clientWidth}));
+    ro.observe(container);
+
+  }catch(e){
+    statusEl.textContent=`❌ 오류: ${e.message}`;
+    console.error(e);
+  }
+}
+</script>
+</body>
+</html>
